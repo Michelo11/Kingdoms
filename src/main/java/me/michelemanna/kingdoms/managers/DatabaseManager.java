@@ -125,6 +125,30 @@ public class DatabaseManager {
         return future;
     }
 
+    public CompletableFuture<Boolean> deleteKingdom(String kingdomName) {
+        CompletableFuture<Boolean> future = new CompletableFuture<>();
+
+        Bukkit.getScheduler().runTaskAsynchronously(KingdomsPlugin.getInstance(), () -> {
+            try {
+                Connection connection = provider.getConnection();
+                PreparedStatement statement = connection.prepareStatement("DELETE FROM kingdoms WHERE name = ?");
+
+                statement.setString(1, kingdomName);
+
+                int rows = statement.executeUpdate();
+
+                future.complete(rows > 0);
+
+                statement.close();
+                provider.closeConnection(connection);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+
+        return future;
+    }
+
     public CompletableFuture<Territory> getTerritory(int x, int z) {
         CompletableFuture<Territory> future = new CompletableFuture<>();
 

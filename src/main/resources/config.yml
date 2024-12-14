@@ -36,3 +36,10 @@ messages:
       success: |
         &8» &aKingdoms:
         &8» &7Name: &e%name%
+
+    delete-kingdom:
+      usage: "&8» &cUsage: /kingdom delete <name>"
+      not-found: "&8» &cThe kingdom was not found"
+      not-owner: "&8» &cYou are not the owner of this kingdom"
+      success: "&8» &aYou have deleted the kingdom &e%name%"
+      error: "&8» &cAn error occurred while deleting the kingdom"

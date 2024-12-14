@@ -14,7 +14,7 @@ public class ListKingdomCommand implements SubCommand {
 
         KingdomsPlugin.getInstance().getDatabase().getKingdoms().thenAccept(kingdoms -> {
             if (kingdoms.isEmpty()) {
-                player.sendMessage(KingdomsPlugin.getInstance().getMessage("commands.list-kingdom.no-kingdoms"));
+                player.sendMessage(KingdomsPlugin.getInstance().getMessage("commands.list-kingdoms.no-kingdoms"));
                 return;
             }
 
