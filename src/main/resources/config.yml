@@ -1,0 +1,23 @@
+# Database configuration
+database:
+  type: "sqlite"
+  host: "localhost"
+  port: 3306
+  username: "root"
+  password: "example"
+  database: "kingdoms"
+  ssl: false
+
+messages:
+  commands:
+    player-only: "&8» &cOnly players can use this command"
+
+    no-permission: "&8» &cYou don't have permission to use this command"
+    player-not-found: "&8» &cThe player is not online"
+
+    create-kingdom:
+      usage: "&8» &cUsage: /kingdom create <name>"
+      already-have-kingdom: "&8» &cYou already have a kingdom"
+      success: "&8» &aYou have created the kingdom"
+      error: "&8» &cAn error occurred while creating the kingdom"
+      territory-already-claimed: "&8» &cYou can't create a kingdom here, the territory is already claimed"
