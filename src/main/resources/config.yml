@@ -18,6 +18,15 @@ messages:
     create-kingdom:
       usage: "&8» &cUsage: /kingdom create <name>"
       already-have-kingdom: "&8» &cYou already have a kingdom"
-      success: "&8» &aYou have created the kingdom"
+      success: "&8» &aYou have created the kingdom &e%name%"
       error: "&8» &cAn error occurred while creating the kingdom"
       territory-already-claimed: "&8» &cYou can't create a kingdom here, the territory is already claimed"
+
+    get-kingdom:
+      no-kingdom: "&8» &cYou don't have a kingdom"
+      success: |
+        &8» &aYour kingdom:
+        &8» &7Name: &e%name%
+        &8» &7Level: &e%level%
+        &8» &7Fund: &e%funds%
+        &8» &7Experience: &e%experience%

@@ -1,7 +1,8 @@
 package me.michelemanna.kingdoms.commands;
 
 import me.michelemanna.kingdoms.KingdomsPlugin;
-import me.michelemanna.kingdoms.commands.SubCommands.CreateKingdomCommand;
+import me.michelemanna.kingdoms.commands.subcommands.CreateKingdomCommand;
+import me.michelemanna.kingdoms.commands.subcommands.GetKingdomCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -17,8 +18,9 @@ import java.util.Map;
 public class KingdomCommand implements TabExecutor {
     private final Map<String, SubCommand> subCommands = new HashMap<>();
 
-    public KingdomCommand(KingdomsPlugin plugin) {
+    public KingdomCommand() {
         this.subCommands.put("create", new CreateKingdomCommand());
+        this.subCommands.put("get", new GetKingdomCommand());
     }
 
     @Override

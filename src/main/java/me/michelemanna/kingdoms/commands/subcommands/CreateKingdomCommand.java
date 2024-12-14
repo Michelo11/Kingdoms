@@ -1,4 +1,4 @@
-package me.michelemanna.kingdoms.commands.SubCommands;
+package me.michelemanna.kingdoms.commands.subcommands;
 
 import me.michelemanna.kingdoms.KingdomsPlugin;
 import me.michelemanna.kingdoms.commands.SubCommand;
@@ -33,7 +33,7 @@ public class CreateKingdomCommand implements SubCommand {
 
                 KingdomsPlugin.getInstance().getDatabase().createKingdom(player.getUniqueId(), kingdomName).thenAccept(created -> {
                     if (created) {
-                        player.sendMessage(KingdomsPlugin.getInstance().getMessage("commands.create-kingdom.success"));
+                        player.sendMessage(KingdomsPlugin.getInstance().getMessage("commands.create-kingdom.success").replace("&name%", kingdomName));
 
                         KingdomsPlugin.getInstance().getDatabase().createTerritory(kingdomName, player.getLocation().getChunk().getX(), player.getLocation().getChunk().getZ());
                     } else {

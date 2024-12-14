@@ -51,7 +51,7 @@ public class DatabaseManager {
                 ResultSet set = statement.executeQuery();
 
                 if (set.next()) {
-                    Kingdom kingdom = new Kingdom(set.getString("name"), leader_id, set.getLong("created_at"));
+                    Kingdom kingdom = new Kingdom(set.getString("name"), leader_id, set.getLong("created_at"), set.getInt("level"), set.getInt("funds"), set.getInt("experience"));
                     future.complete(kingdom);
                 } else {
                     future.complete(null);

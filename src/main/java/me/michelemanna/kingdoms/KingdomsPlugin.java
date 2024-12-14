@@ -12,11 +12,12 @@ public final class KingdomsPlugin extends JavaPlugin {
     private DatabaseManager database;
 
     @Override
+    @SuppressWarnings("ConstantConditions")
     public void onEnable() {
         instance = this;
         this.saveDefaultConfig();
 
-        getCommand("kingdom").setExecutor(new KingdomCommand(this));
+        getCommand("kingdom").setExecutor(new KingdomCommand());
 
         try {
             this.database = new DatabaseManager(this);
