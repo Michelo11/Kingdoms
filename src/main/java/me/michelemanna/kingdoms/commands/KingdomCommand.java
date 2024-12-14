@@ -3,6 +3,7 @@ package me.michelemanna.kingdoms.commands;
 import me.michelemanna.kingdoms.KingdomsPlugin;
 import me.michelemanna.kingdoms.commands.subcommands.CreateKingdomCommand;
 import me.michelemanna.kingdoms.commands.subcommands.GetKingdomCommand;
+import me.michelemanna.kingdoms.commands.subcommands.ListKingdomCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -21,6 +22,7 @@ public class KingdomCommand implements TabExecutor {
     public KingdomCommand() {
         this.subCommands.put("create", new CreateKingdomCommand());
         this.subCommands.put("get", new GetKingdomCommand());
+        this.subCommands.put("list", new ListKingdomCommand());
     }
 
     @Override

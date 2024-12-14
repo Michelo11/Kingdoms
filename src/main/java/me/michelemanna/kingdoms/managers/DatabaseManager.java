@@ -12,6 +12,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
@@ -36,6 +38,35 @@ public class DatabaseManager {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public CompletableFuture<List<Kingdom>> getKingdoms() {
+        CompletableFuture<List<Kingdom>> future = new CompletableFuture<>();
+
+        Bukkit.getScheduler().runTaskAsynchronously(KingdomsPlugin.getInstance(), () -> {
+            try {
+                Connection connection = provider.getConnection();
+                PreparedStatement statement = connection.prepareStatement("SELECT * FROM kingdoms");
+
+                ResultSet set = statement.executeQuery();
+                List<Kingdom> kingdoms = new ArrayList<>();
+
+                while (set.next()) {
+                    Kingdom kingdom = new Kingdom(set.getString("name"), UUID.fromString(set.getString("leader_id")), set.getLong("created_at"), set.getInt("level"), set.getInt("funds"), set.getInt("experience"));
+                    kingdoms.add(kingdom);
+                }
+
+                future.complete(kingdoms);
+
+                set.close();
+                statement.close();
+                provider.closeConnection(connection);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+
+        return future;
     }
 
     public CompletableFuture<Kingdom> getKingdom(UUID leader_id) {

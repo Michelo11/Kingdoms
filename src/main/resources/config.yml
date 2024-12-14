@@ -30,3 +30,9 @@ messages:
         &8» &7Level: &e%level%
         &8» &7Fund: &e%funds%
         &8» &7Experience: &e%experience%
+        
+    list-kingdoms:
+      no-kingdoms: "&8» &cThere are no kingdoms"
+      success: |
+        &8» &aKingdoms:
+        &8» &7Name: &e%name%
