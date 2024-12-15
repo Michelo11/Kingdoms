@@ -34,22 +34,12 @@ public class KingdomTerritoryItem extends AbstractItem {
                     .map(territory -> player.getWorld().getChunkAt(territory.x(), territory.z()))
                     .toList();
 
-            Chunk firstChunk = chunks.getFirst();
-            Chunk lastChunk = chunks.getFirst();
-
             for (Chunk chunk : chunks) {
-                if (chunk.getX() < firstChunk.getX() || chunk.getZ() < firstChunk.getZ()) {
-                    firstChunk = chunk;
-                }
-                if (chunk.getX() > lastChunk.getX() || chunk.getZ() > lastChunk.getZ()) {
-                    lastChunk = chunk;
-                }
+                World world = chunk.getWorld();
+                Location first = chunk.getBlock(0, world.getMinHeight(), 0).getLocation();
+                Location last = chunk.getBlock(15, world.getMaxHeight(), 15).getLocation();
+                Particles.cube(first, last, 1, ParticleDisplay.of(XParticle.HAPPY_VILLAGER).onlyVisibleTo(player));
             }
-
-            World world = firstChunk.getWorld();
-            Location first = firstChunk.getBlock(0, world.getMinHeight(), 0).getLocation();
-            Location last = lastChunk.getBlock(15, world.getMaxHeight(), 15).getLocation();
-            Particles.cube(first, last, 1, ParticleDisplay.of(XParticle.HAPPY_VILLAGER));
         });
     }
 }

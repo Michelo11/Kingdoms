@@ -55,6 +55,7 @@ public class DatabaseManager {
                 while (set.next()) {
                     Kingdom kingdom = new Kingdom(set.getInt("id"), set.getString("name"), UUID.fromString(set.getString("leader_id")), set.getInt("level"), set.getInt("funds"), set.getInt("experience"));
                     kingdoms.add(kingdom);
+                    KingdomsPlugin.getInstance().getKingdomManager().addKingdom(kingdom);
                 }
 
                 future.complete(kingdoms);
@@ -147,6 +148,12 @@ public class DatabaseManager {
 
                 future.complete(rows > 0);
 
+                ResultSet set = statement.getGeneratedKeys();
+                set.next();
+                int id = set.getInt(1);
+
+                KingdomsPlugin.getInstance().getKingdomManager().addKingdom(new Kingdom(id, kingdomName, leaderId, 1, 0, 0));
+
                 statement.close();
                 provider.closeConnection(connection);
             } catch (SQLException e) {
@@ -170,6 +177,13 @@ public class DatabaseManager {
                 int rows = statement.executeUpdate();
 
                 future.complete(rows > 0);
+
+                Kingdom kingdom = KingdomsPlugin.getInstance().getKingdomManager().getKingdom(kingdomName);
+
+                if (kingdom != null) {
+                    KingdomsPlugin.getInstance().getKingdomManager().removeKingdom(kingdom);
+                    KingdomsPlugin.getInstance().getTerritoryManager().removeTerritories(kingdom.getId());
+                }
 
                 statement.close();
                 provider.closeConnection(connection);

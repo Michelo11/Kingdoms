@@ -24,6 +24,9 @@ messages:
       not-found: "&8» &cThe kingdom was not found"
       success: "&8» &aYou have deleted the kingdom &e%name%"
       error: "&8» &cAn error occurred while deleting the kingdom"
+    claim-territory:
+      already-claimed: "&8» &cThe territory is already claimed"
+      success: "&8» &aYou have claimed the territory"
   guis:
     kingdom-not-found: "&8» &cThe kingdom was not found"
     no-kingdoms: "&8» &cThere are no kingdoms"
@@ -36,3 +39,6 @@ messages:
     rename-kingdom:
       prompt: "&8» &7What name do you want to give to your kingdom?"
       success: "&8» &aYou have renamed the kingdom to &e%name%"
+  listeners:
+    title: "&a&l%name%"
+    subtitle: "&7You have entered the territory of &e%name%"

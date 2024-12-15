@@ -1,5 +1,6 @@
 package me.michelemanna.kingdoms.data;
 
+import java.util.List;
 import java.util.UUID;
 
 public class Kingdom {
@@ -9,6 +10,7 @@ public class Kingdom {
     private int level;
     private int funds;
     private int experience;
+    private List<UUID> members;
 
     public Kingdom(int id, String name, UUID leaderId, int level, int funds, int experience) {
         this.id = id;
@@ -35,6 +37,10 @@ public class Kingdom {
         return funds;
     }
 
+    public UUID getLeaderId() {
+        return leaderId;
+    }
+
     public int getExperience() {
         return experience;
     }
@@ -43,15 +49,11 @@ public class Kingdom {
         this.name = name;
     }
 
-    public void setLevel(int level) {
-        this.level = level;
+    public List<UUID> getMembers() {
+        return members;
     }
 
-    public void setFunds(int funds) {
-        this.funds = funds;
-    }
-
-    public void setExperience(int experience) {
-        this.experience = experience;
+    public void setMembers(List<UUID> uuids) {
+        this.members = uuids;
     }
 }

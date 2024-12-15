@@ -1,10 +1,7 @@
 package me.michelemanna.kingdoms.commands;
 
 import me.michelemanna.kingdoms.KingdomsPlugin;
-import me.michelemanna.kingdoms.commands.subcommands.CreateKingdomCommand;
-import me.michelemanna.kingdoms.commands.subcommands.DeleteKingdomCommand;
-import me.michelemanna.kingdoms.commands.subcommands.ListKingdomCommand;
-import me.michelemanna.kingdoms.commands.subcommands.MenuKingdomCommand;
+import me.michelemanna.kingdoms.commands.subcommands.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -25,6 +22,7 @@ public class KingdomCommand implements TabExecutor {
         this.subCommands.put("menu", new MenuKingdomCommand());
         this.subCommands.put("list", new ListKingdomCommand());
         this.subCommands.put("delete", new DeleteKingdomCommand());
+        this.subCommands.put("claim", new ClaimTerritoryCommand());
     }
 
     @Override
