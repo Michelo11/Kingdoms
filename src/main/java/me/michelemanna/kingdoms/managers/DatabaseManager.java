@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
@@ -83,6 +84,38 @@ public class DatabaseManager {
 
                 if (set.next()) {
                     Kingdom kingdom = new Kingdom(set.getInt("id"), set.getString("name"), leader_id, set.getInt("level"), set.getInt("funds"), set.getInt("experience"));
+                    future.complete(kingdom);
+                } else {
+                    future.complete(null);
+                }
+
+                set.close();
+                statement.close();
+                provider.closeConnection(connection);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+
+        return future;
+    }
+
+    public CompletableFuture<Kingdom> getKingdom(String name) {
+        CompletableFuture<Kingdom> future = new CompletableFuture<>();
+
+        Bukkit.getScheduler().runTaskAsynchronously(KingdomsPlugin.getInstance(), () -> {
+            try {
+                Connection connection = provider.getConnection();
+                PreparedStatement statement = connection.prepareStatement("SELECT * FROM kingdoms WHERE name = ?");
+
+                statement.setString(1, name);
+
+                ResultSet set = statement.executeQuery();
+
+                if (set.next()) {
+                    Kingdom kingdom = new Kingdom(set.getInt("id"), set.getString("name"),
+                            UUID.fromString(set.getString("leader_id")), set.getInt("level"),
+                            set.getInt("funds"), set.getInt("experience"));
                     future.complete(kingdom);
                 } else {
                     future.complete(null);
@@ -249,6 +282,10 @@ public class DatabaseManager {
 
                 statement.executeUpdate();
 
+                Kingdom kingdom = getKingdom(kingdomName).join();
+
+                KingdomsPlugin.getInstance().getTerritoryManager().addTerritory(kingdom.getId(), new Territory(x, z, false));
+
                 statement.close();
                 provider.closeConnection(connection);
             } catch (SQLException e) {
@@ -267,12 +304,46 @@ public class DatabaseManager {
 
                 statement.executeUpdate();
 
+                Kingdom kingdom = getKingdom(kingdomName).join();
+
+                KingdomsPlugin.getInstance().getTerritoryManager().removeTerritories(kingdom.getId());
+
                 statement.close();
                 provider.closeConnection(connection);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         });
+    }
+
+    public CompletableFuture<Map<Integer, List<Territory>>> getTerritories() {
+        CompletableFuture<Map<Integer, List<Territory>>> future = new CompletableFuture<>();
+
+        Bukkit.getScheduler().runTaskAsynchronously(KingdomsPlugin.getInstance(), () -> {
+            try {
+                Connection connection = provider.getConnection();
+                PreparedStatement statement = connection.prepareStatement("SELECT *, kingdoms.id AS kingdom_id FROM territories INNER JOIN kingdoms ON territories.kingdom_name = kingdoms.name");
+
+                ResultSet set = statement.executeQuery();
+
+                while (set.next()) {
+                    int kingdomId = set.getInt("kingdom_id");
+                    Territory territory = new Territory(set.getInt("chunk_x"), set.getInt("chunk_z"), set.getBoolean("protected"));
+                    KingdomsPlugin.getInstance().getTerritoryManager().addTerritory(kingdomId, territory);
+                }
+
+                future.complete(KingdomsPlugin.getInstance().getTerritoryManager().getTerritories());
+
+
+                set.close();
+                statement.close();
+                provider.closeConnection(connection);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+
+        return future;
     }
 
     public void removeMembers(String kingdomName) {

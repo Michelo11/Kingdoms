@@ -26,6 +26,7 @@ dependencies {
     compileOnly("org.spigotmc:spigot-api:1.21.4-R0.1-SNAPSHOT")
     implementation("com.zaxxer:HikariCP:6.2.1")
     implementation("xyz.xenondevs.invui:invui:1.43")
+    implementation("com.github.cryptomorin:XSeries:12.0.0")
 }
 
 shadowJar {
@@ -35,6 +36,7 @@ shadowJar {
     relocate("xyz.xenondevs.invui", "me.michelemanna.kingdoms.libs.invui")
     relocate("xyz.xenondevs.invui", "me.michelemanna.kingdoms.libs.invui")
     relocate("com.zaxxer.hikari", "me.michelemanna.kingdoms.libs.hikari")
+    relocate("com.cryptomorin.xseries", "me.michelemanna.kingdoms.libs.xseries")
 }
 
 def targetJavaVersion = 21

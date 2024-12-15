@@ -28,6 +28,7 @@ public class KingdomMenu {
             builder.addIngredient('3', new KingdomFundItem(kingdom));
             builder.addIngredient('4', new KingdomExperienceItem(kingdom));
             builder.addIngredient('5', new KingdomMemberItem(kingdom));
+            builder.addIngredient('6', new KingdomTerritoryItem());
 
             Gui gui = builder.build();
 
