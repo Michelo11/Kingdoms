@@ -32,15 +32,13 @@ public class SQLiteProvider implements ConnectionProvider {
                 "leader_id TEXT NOT NULL, " +
                 "level INTEGER DEFAULT 1, " +
                 "funds INTEGER DEFAULT 0, " +
-                "experience INTEGER DEFAULT 0, " +
-                "created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +
+                "experience INTEGER DEFAULT 0" +
                 ")");
 
         statement.executeUpdate("CREATE TABLE IF NOT EXISTS members(" +
                 "uuid TEXT NOT NULL, " +
                 "kingdom_name TEXT NOT NULL, " +
                 "role TEXT NOT NULL, " +
-                "joined_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, " +
                 "FOREIGN KEY (kingdom_name) REFERENCES kingdoms(name) ON DELETE CASCADE" +
                 ")");
 
@@ -50,7 +48,6 @@ public class SQLiteProvider implements ConnectionProvider {
                 "chunk_x INTEGER NOT NULL, " +
                 "chunk_z INTEGER NOT NULL, " +
                 "protected INTEGER DEFAULT 0, " +
-                "captured_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, " +
                 "FOREIGN KEY (kingdom_name) REFERENCES kingdoms(name) ON DELETE CASCADE" +
                 ")");
 
@@ -59,8 +56,6 @@ public class SQLiteProvider implements ConnectionProvider {
                 "attacker_id INTEGER NOT NULL, " +
                 "defender_id INTEGER NOT NULL, " +
                 "winner_id INTEGER, " +
-                "started_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, " +
-                "ended_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, " +
                 "FOREIGN KEY (attacker_id) REFERENCES kingdoms(id) ON DELETE CASCADE, " +
                 "FOREIGN KEY (defender_id) REFERENCES kingdoms(id) ON DELETE CASCADE, " +
                 "FOREIGN KEY (winner_id) REFERENCES kingdoms(id) ON DELETE CASCADE" +
@@ -72,7 +67,6 @@ public class SQLiteProvider implements ConnectionProvider {
                 "name TEXT NOT NULL, " +
                 "status TEXT DEFAULT 'pending', " +
                 "reward INTEGER DEFAULT 0, " +
-                "completed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, " +
                 "FOREIGN KEY (kingdom_name) REFERENCES kingdoms(name) ON DELETE CASCADE" +
                 ")");
 

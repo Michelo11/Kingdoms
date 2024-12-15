@@ -12,27 +12,15 @@ public class DeleteKingdomCommand implements SubCommand {
             return;
         }
 
-        if (args.length != 2) {
-            player.sendMessage(KingdomsPlugin.getInstance().getMessage("commands.delete-kingdom.usage"));
-            return;
-        }
-
-        String kingdomName = args[1];
-
         KingdomsPlugin.getInstance().getDatabase().getKingdom(player.getUniqueId()).thenAccept(kingdom -> {
             if (kingdom == null) {
                 player.sendMessage(KingdomsPlugin.getInstance().getMessage("commands.delete-kingdom.not-found"));
                 return;
             }
 
-            if (!kingdom.getLeaderId().equals(player.getUniqueId())) {
-                player.sendMessage(KingdomsPlugin.getInstance().getMessage("commands.delete-kingdom.not-owner"));
-                return;
-            }
-
-            KingdomsPlugin.getInstance().getDatabase().deleteKingdom(kingdomName).thenAccept(deleted -> {
+            KingdomsPlugin.getInstance().getDatabase().deleteKingdom(kingdom.getName()).thenAccept(deleted -> {
                 if (deleted) {
-                    player.sendMessage(KingdomsPlugin.getInstance().getMessage("commands.delete-kingdom.success").replace("%name%", kingdomName));
+                    player.sendMessage(KingdomsPlugin.getInstance().getMessage("commands.delete-kingdom.success").replace("%name%", kingdom.getName()));
                 } else {
                     player.sendMessage(KingdomsPlugin.getInstance().getMessage("commands.delete-kingdom.error"));
                 }

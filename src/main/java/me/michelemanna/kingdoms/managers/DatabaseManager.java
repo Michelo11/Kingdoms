@@ -52,7 +52,7 @@ public class DatabaseManager {
                 List<Kingdom> kingdoms = new ArrayList<>();
 
                 while (set.next()) {
-                    Kingdom kingdom = new Kingdom(set.getString("name"), UUID.fromString(set.getString("leader_id")), set.getLong("created_at"), set.getInt("level"), set.getInt("funds"), set.getInt("experience"));
+                    Kingdom kingdom = new Kingdom(set.getInt("id"), set.getString("name"), UUID.fromString(set.getString("leader_id")), set.getInt("level"), set.getInt("funds"), set.getInt("experience"));
                     kingdoms.add(kingdom);
                 }
 
@@ -82,7 +82,7 @@ public class DatabaseManager {
                 ResultSet set = statement.executeQuery();
 
                 if (set.next()) {
-                    Kingdom kingdom = new Kingdom(set.getString("name"), leader_id, set.getLong("created_at"), set.getInt("level"), set.getInt("funds"), set.getInt("experience"));
+                    Kingdom kingdom = new Kingdom(set.getInt("id"), set.getString("name"), leader_id, set.getInt("level"), set.getInt("funds"), set.getInt("experience"));
                     future.complete(kingdom);
                 } else {
                     future.complete(null);
@@ -105,11 +105,10 @@ public class DatabaseManager {
         Bukkit.getScheduler().runTaskAsynchronously(KingdomsPlugin.getInstance(), () -> {
             try {
                 Connection connection = provider.getConnection();
-                PreparedStatement statement = connection.prepareStatement("INSERT INTO kingdoms (name, leader_id, created_at) VALUES (?, ?, ?)");
+                PreparedStatement statement = connection.prepareStatement("INSERT INTO kingdoms (name, leader_id) VALUES (?, ?)");
 
                 statement.setString(1, kingdomName);
                 statement.setString(2, leaderId.toString());
-                statement.setLong(3, System.currentTimeMillis());
 
                 int rows = statement.executeUpdate();
 
@@ -149,6 +148,34 @@ public class DatabaseManager {
         return future;
     }
 
+    public CompletableFuture<Boolean> updateKingdom(Kingdom kingdom) {
+        CompletableFuture<Boolean> future = new CompletableFuture<>();
+
+        Bukkit.getScheduler().runTaskAsynchronously(KingdomsPlugin.getInstance(), () -> {
+            try {
+                Connection connection = provider.getConnection();
+                PreparedStatement statement = connection.prepareStatement("UPDATE kingdoms SET level = ?, funds = ?, experience = ?, name = ? WHERE id = ?");
+
+                statement.setInt(1, kingdom.getLevel());
+                statement.setInt(2, kingdom.getFunds());
+                statement.setInt(3, kingdom.getExperience());
+                statement.setString(4, kingdom.getName());
+                statement.setInt(5, kingdom.getId());
+
+                int rows = statement.executeUpdate();
+
+                future.complete(rows > 0);
+
+                statement.close();
+                provider.closeConnection(connection);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+
+        return future;
+    }
+
     public CompletableFuture<Territory> getTerritory(int x, int z) {
         CompletableFuture<Territory> future = new CompletableFuture<>();
 
@@ -163,7 +190,7 @@ public class DatabaseManager {
                 ResultSet set = statement.executeQuery();
 
                 if (set.next()) {
-                    Territory territory = new Territory(x, z, set.getBoolean("protected"), set.getLong("captured_at"));
+                    Territory territory = new Territory(x, z, set.getBoolean("protected"));
                     future.complete(territory);
                 } else {
                     future.complete(null);

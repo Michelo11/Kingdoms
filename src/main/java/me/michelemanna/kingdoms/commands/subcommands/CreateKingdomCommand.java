@@ -19,7 +19,10 @@ public class CreateKingdomCommand implements SubCommand {
 
         String kingdomName = args[1];
 
-        KingdomsPlugin.getInstance().getDatabase().getTerritory(player.getLocation().getChunk().getX(), player.getLocation().getChunk().getZ()).thenAccept(territory -> {
+        int x = player.getLocation().getChunk().getX();
+        int z = player.getLocation().getChunk().getZ();
+
+        KingdomsPlugin.getInstance().getDatabase().getTerritory(x, z).thenAccept(territory -> {
             if (territory != null) {
                 player.sendMessage(KingdomsPlugin.getInstance().getMessage("commands.create-kingdom.territory-already-claimed"));
                 return;
@@ -33,9 +36,9 @@ public class CreateKingdomCommand implements SubCommand {
 
                 KingdomsPlugin.getInstance().getDatabase().createKingdom(player.getUniqueId(), kingdomName).thenAccept(created -> {
                     if (created) {
-                        player.sendMessage(KingdomsPlugin.getInstance().getMessage("commands.create-kingdom.success").replace("&name%", kingdomName));
+                        player.sendMessage(KingdomsPlugin.getInstance().getMessage("commands.create-kingdom.success").replace("%name%", kingdomName));
 
-                        KingdomsPlugin.getInstance().getDatabase().createTerritory(kingdomName, player.getLocation().getChunk().getX(), player.getLocation().getChunk().getZ());
+                        KingdomsPlugin.getInstance().getDatabase().createTerritory(kingdomName, x, z);
                     } else {
                         player.sendMessage(KingdomsPlugin.getInstance().getMessage("commands.create-kingdom.error"));
                     }

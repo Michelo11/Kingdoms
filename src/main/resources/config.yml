@@ -8,38 +8,30 @@ database:
   database: "kingdoms"
   ssl: false
 
+# Messages configuration
 messages:
   commands:
     player-only: "&8» &cOnly players can use this command"
-
     no-permission: "&8» &cYou don't have permission to use this command"
     player-not-found: "&8» &cThe player is not online"
-
     create-kingdom:
       usage: "&8» &cUsage: /kingdom create <name>"
       already-have-kingdom: "&8» &cYou already have a kingdom"
       success: "&8» &aYou have created the kingdom &e%name%"
       error: "&8» &cAn error occurred while creating the kingdom"
       territory-already-claimed: "&8» &cYou can't create a kingdom here, the territory is already claimed"
-
-    get-kingdom:
-      no-kingdom: "&8» &cYou don't have a kingdom"
-      success: |
-        &8» &aYour kingdom:
-        &8» &7Name: &e%name%
-        &8» &7Level: &e%level%
-        &8» &7Fund: &e%funds%
-        &8» &7Experience: &e%experience%
-        
     list-kingdoms:
       no-kingdoms: "&8» &cThere are no kingdoms"
       success: |
         &8» &aKingdoms:
         &8» &7Name: &e%name%
-
     delete-kingdom:
-      usage: "&8» &cUsage: /kingdom delete <name>"
       not-found: "&8» &cThe kingdom was not found"
-      not-owner: "&8» &cYou are not the owner of this kingdom"
       success: "&8» &aYou have deleted the kingdom &e%name%"
       error: "&8» &cAn error occurred while deleting the kingdom"
+  guis:
+    kingdom-not-found: "&8» &cThe kingdom was not found"
+  conversations:
+    rename-kingdom:
+      prompt: "&8» &7What name do you want to give to your kingdom?"
+      success: "&8» &aYou have renamed the kingdom to &e%name%"
