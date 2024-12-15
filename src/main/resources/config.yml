@@ -20,17 +20,15 @@ messages:
       success: "&8» &aYou have created the kingdom &e%name%"
       error: "&8» &cAn error occurred while creating the kingdom"
       territory-already-claimed: "&8» &cYou can't create a kingdom here, the territory is already claimed"
-    list-kingdoms:
-      no-kingdoms: "&8» &cThere are no kingdoms"
-      success: |
-        &8» &aKingdoms:
-        &8» &7Name: &e%name%
     delete-kingdom:
       not-found: "&8» &cThe kingdom was not found"
       success: "&8» &aYou have deleted the kingdom &e%name%"
       error: "&8» &cAn error occurred while deleting the kingdom"
   guis:
     kingdom-not-found: "&8» &cThe kingdom was not found"
+    no-kingdoms: "&8» &cThere are no kingdoms"
+    next-page: "&8» &aNext page"
+    previous-page: "&8» &aPrevious page"
   conversations:
     rename-kingdom:
       prompt: "&8» &7What name do you want to give to your kingdom?"

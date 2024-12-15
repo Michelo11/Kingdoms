@@ -2,6 +2,7 @@ package me.michelemanna.kingdoms.commands.subcommands;
 
 import me.michelemanna.kingdoms.KingdomsPlugin;
 import me.michelemanna.kingdoms.commands.SubCommand;
+import me.michelemanna.kingdoms.guis.KingdomsMenu;
 import org.bukkit.entity.Player;
 
 public class ListKingdomCommand implements SubCommand {
@@ -12,15 +13,6 @@ public class ListKingdomCommand implements SubCommand {
             return;
         }
 
-        KingdomsPlugin.getInstance().getDatabase().getKingdoms().thenAccept(kingdoms -> {
-            if (kingdoms.isEmpty()) {
-                player.sendMessage(KingdomsPlugin.getInstance().getMessage("commands.list-kingdoms.no-kingdoms"));
-                return;
-            }
-
-            kingdoms.forEach(kingdom -> player.sendMessage(KingdomsPlugin.getInstance().getMessage("commands.list-kingdoms.success")
-                    .replace("%name%", kingdom.getName())
-            ));
-        });
+        new KingdomsMenu().open(player);
     }
 }
