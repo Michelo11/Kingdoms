@@ -1,10 +1,7 @@
 package me.michelemanna.kingdoms.guis;
 
 import me.michelemanna.kingdoms.KingdomsPlugin;
-import me.michelemanna.kingdoms.guis.items.KingdomExperienceItem;
-import me.michelemanna.kingdoms.guis.items.KingdomFundItem;
-import me.michelemanna.kingdoms.guis.items.KingdomInfoItem;
-import me.michelemanna.kingdoms.guis.items.KingdomLevelItem;
+import me.michelemanna.kingdoms.guis.items.*;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import xyz.xenondevs.invui.gui.Gui;
@@ -30,6 +27,7 @@ public class KingdomMenu {
             builder.addIngredient('2', new KingdomLevelItem(kingdom));
             builder.addIngredient('3', new KingdomFundItem(kingdom));
             builder.addIngredient('4', new KingdomExperienceItem(kingdom));
+            builder.addIngredient('5', new KingdomMemberItem(kingdom));
 
             Gui gui = builder.build();
 

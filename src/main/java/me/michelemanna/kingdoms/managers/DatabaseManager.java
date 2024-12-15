@@ -207,6 +207,36 @@ public class DatabaseManager {
         return future;
     }
 
+    public CompletableFuture<List<UUID>> getKingdomMembers(String kingdomName) {
+        CompletableFuture<List<UUID>> future = new CompletableFuture<>();
+
+        Bukkit.getScheduler().runTaskAsynchronously(KingdomsPlugin.getInstance(), () -> {
+            try {
+                Connection connection = provider.getConnection();
+                PreparedStatement statement = connection.prepareStatement("SELECT * FROM members WHERE kingdom_name = ?");
+
+                statement.setString(1, kingdomName);
+
+                ResultSet set = statement.executeQuery();
+                List<UUID> members = new ArrayList<>();
+
+                while (set.next()) {
+                    members.add(UUID.fromString(set.getString("uuid")));
+                }
+
+                future.complete(members);
+
+                set.close();
+                statement.close();
+                provider.closeConnection(connection);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+
+        return future;
+    }
+
     public void createTerritory(String kingdomName, int x, int z) {
         Bukkit.getScheduler().runTaskAsynchronously(KingdomsPlugin.getInstance(), () -> {
             try {
@@ -216,6 +246,80 @@ public class DatabaseManager {
                 statement.setString(1, kingdomName);
                 statement.setInt(2, x);
                 statement.setInt(3, z);
+
+                statement.executeUpdate();
+
+                statement.close();
+                provider.closeConnection(connection);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public void deleteTerritories(String kingdomName) {
+        Bukkit.getScheduler().runTaskAsynchronously(KingdomsPlugin.getInstance(), () -> {
+            try {
+                Connection connection = provider.getConnection();
+                PreparedStatement statement = connection.prepareStatement("DELETE FROM territories WHERE kingdom_name = ?");
+
+                statement.setString(1, kingdomName);
+
+                statement.executeUpdate();
+
+                statement.close();
+                provider.closeConnection(connection);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public void removeMembers(String kingdomName) {
+        Bukkit.getScheduler().runTaskAsynchronously(KingdomsPlugin.getInstance(), () -> {
+            try {
+                Connection connection = provider.getConnection();
+                PreparedStatement statement = connection.prepareStatement("DELETE FROM members WHERE kingdom_name = ?");
+
+                statement.setString(1, kingdomName);
+
+                statement.executeUpdate();
+
+                statement.close();
+                provider.closeConnection(connection);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public void removeMember(UUID playerId) {
+        Bukkit.getScheduler().runTaskAsynchronously(KingdomsPlugin.getInstance(), () -> {
+            try {
+                Connection connection = provider.getConnection();
+                PreparedStatement statement = connection.prepareStatement("DELETE FROM members WHERE uuid = ?");
+
+                statement.setString(1, playerId.toString());
+
+                statement.executeUpdate();
+
+                statement.close();
+                provider.closeConnection(connection);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public void addMember(String kingdomName, UUID playerId) {
+        Bukkit.getScheduler().runTaskAsynchronously(KingdomsPlugin.getInstance(), () -> {
+            try {
+                Connection connection = provider.getConnection();
+                PreparedStatement statement = connection.prepareStatement("INSERT INTO members (kingdom_name, uuid, role) VALUES (?, ?, ?)");
+
+                statement.setString(1, kingdomName);
+                statement.setString(2, playerId.toString());
+                statement.setString(3, "member");
 
                 statement.executeUpdate();
 

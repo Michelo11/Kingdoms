@@ -20,6 +20,9 @@ public class DeleteKingdomCommand implements SubCommand {
 
             KingdomsPlugin.getInstance().getDatabase().deleteKingdom(kingdom.getName()).thenAccept(deleted -> {
                 if (deleted) {
+                    KingdomsPlugin.getInstance().getDatabase().deleteTerritories(kingdom.getName());
+                    KingdomsPlugin.getInstance().getDatabase().removeMembers(kingdom.getName());
+
                     player.sendMessage(KingdomsPlugin.getInstance().getMessage("commands.delete-kingdom.success").replace("%name%", kingdom.getName()));
                 } else {
                     player.sendMessage(KingdomsPlugin.getInstance().getMessage("commands.delete-kingdom.error"));

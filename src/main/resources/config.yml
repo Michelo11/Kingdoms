@@ -29,6 +29,9 @@ messages:
     no-kingdoms: "&8» &cThere are no kingdoms"
     next-page: "&8» &aNext page"
     previous-page: "&8» &aPrevious page"
+    remove-member:
+        success: "&8» &aYou have removed &e%player% &afrom the kingdom"
+        error: "&8» &cAn error occurred while removing the player from the kingdom"
   conversations:
     rename-kingdom:
       prompt: "&8» &7What name do you want to give to your kingdom?"

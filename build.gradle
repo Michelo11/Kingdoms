@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'io.github.goooler.shadow' version '8.1.8'
 }
 
 group = 'me.michelemanna'
@@ -25,6 +26,15 @@ dependencies {
     compileOnly("org.spigotmc:spigot-api:1.21.4-R0.1-SNAPSHOT")
     implementation("com.zaxxer:HikariCP:6.2.1")
     implementation("xyz.xenondevs.invui:invui:1.43")
+}
+
+shadowJar {
+    archiveClassifier.set("")
+
+    relocate("xyz.xenondevs.inventoryaccess", "me.michelemanna.kingdoms.libs.inventoryaccess")
+    relocate("xyz.xenondevs.invui", "me.michelemanna.kingdoms.libs.invui")
+    relocate("xyz.xenondevs.invui", "me.michelemanna.kingdoms.libs.invui")
+    relocate("com.zaxxer.hikari", "me.michelemanna.kingdoms.libs.hikari")
 }
 
 def targetJavaVersion = 21
@@ -53,3 +63,5 @@ processResources {
         expand props
     }
 }
+
+tasks.build.dependsOn tasks.shadowJar

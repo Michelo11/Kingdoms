@@ -36,9 +36,10 @@ public class CreateKingdomCommand implements SubCommand {
 
                 KingdomsPlugin.getInstance().getDatabase().createKingdom(player.getUniqueId(), kingdomName).thenAccept(created -> {
                     if (created) {
-                        player.sendMessage(KingdomsPlugin.getInstance().getMessage("commands.create-kingdom.success").replace("%name%", kingdomName));
-
                         KingdomsPlugin.getInstance().getDatabase().createTerritory(kingdomName, x, z);
+                        KingdomsPlugin.getInstance().getDatabase().addMember(kingdomName, player.getUniqueId());
+
+                        player.sendMessage(KingdomsPlugin.getInstance().getMessage("commands.create-kingdom.success").replace("%name%", kingdomName));
                     } else {
                         player.sendMessage(KingdomsPlugin.getInstance().getMessage("commands.create-kingdom.error"));
                     }
