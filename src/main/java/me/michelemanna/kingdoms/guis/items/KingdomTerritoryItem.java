@@ -32,6 +32,7 @@ public class KingdomTerritoryItem extends AbstractItem {
         KingdomsPlugin.getInstance().getDatabase().getKingdom(player.getUniqueId()).thenAccept(kingdom -> {
             List<Chunk> chunks = KingdomsPlugin.getInstance().getTerritoryManager().getChunks(kingdom.getId()).stream()
                     .map(territory -> player.getWorld().getChunkAt(territory.x(), territory.z()))
+                    .filter(chunk -> player.getLocation().distanceSquared(chunk.getBlock(0, player.getLocation().getBlockY(), 0).getLocation()) <= 200)
                     .toList();
 
             for (Chunk chunk : chunks) {

@@ -195,7 +195,7 @@ public class DatabaseManager {
         return future;
     }
 
-    public CompletableFuture<Boolean> updateKingdom(Kingdom kingdom) {
+    public void updateKingdom(Kingdom kingdom) {
         CompletableFuture<Boolean> future = new CompletableFuture<>();
 
         Bukkit.getScheduler().runTaskAsynchronously(KingdomsPlugin.getInstance(), () -> {
@@ -220,7 +220,6 @@ public class DatabaseManager {
             }
         });
 
-        return future;
     }
 
     public CompletableFuture<Territory> getTerritory(int x, int z) {

@@ -5,6 +5,7 @@ import me.michelemanna.kingdoms.listeners.PlayerListener;
 import me.michelemanna.kingdoms.managers.DatabaseManager;
 import me.michelemanna.kingdoms.managers.KingdomManager;
 import me.michelemanna.kingdoms.managers.TerritoryManager;
+import me.michelemanna.kingdoms.managers.WarManager;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -15,6 +16,7 @@ public final class KingdomsPlugin extends JavaPlugin {
     private DatabaseManager database;
     private TerritoryManager territoryManager;
     private KingdomManager kingdomManager;
+    private WarManager warManager;
 
     @Override
     @SuppressWarnings("ConstantConditions")
@@ -29,6 +31,7 @@ public final class KingdomsPlugin extends JavaPlugin {
             this.database = new DatabaseManager(this);
             this.territoryManager = new TerritoryManager();
             this.kingdomManager = new KingdomManager();
+            this.warManager = new WarManager();
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -60,5 +63,9 @@ public final class KingdomsPlugin extends JavaPlugin {
 
     public KingdomManager getKingdomManager() {
         return kingdomManager;
+    }
+
+    public WarManager getWarManager() {
+        return warManager;
     }
 }

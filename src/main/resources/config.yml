@@ -39,6 +39,18 @@ messages:
     rename-kingdom:
       prompt: "&8» &7What name do you want to give to your kingdom?"
       success: "&8» &aYou have renamed the kingdom to &e%name%"
+    war-confirm:
+      prompt: "&8» &7Do you want to declare war to the kingdom &e%name%&7? (yes/no)"
+      success: "&8» &aYou have declared war to the kingdom &e%name%"
+      no-war: "&8» &cYou have decided not to declare war"
+      invalid: "&8» &cInvalid response"
+    war-accept:
+      prompt: "&8» &7Do you want to accept the war declared by the kingdom &e%name%&7? (yes/no)"
+      success: "&8» &aYou have accepted the war declared by the kingdom &e%name%"
+      success-attacker: "&8» &aThe kingdom &e%name% &ahas accepted the war"
+      no-war: "&8» &cYou have decided not to accept the war"
+      no-war-attacker: "&8» &cThe kingdom &e%name% &cdecided not to accept the war"
+      invalid: "&8» &cInvalid response"
   listeners:
     title: "&a&l%name%"
     subtitle: "&7You have entered the territory of &e%name%"
