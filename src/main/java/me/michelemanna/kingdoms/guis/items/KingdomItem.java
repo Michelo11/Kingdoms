@@ -23,7 +23,8 @@ public class KingdomItem extends AbstractItem {
     @Override
     public ItemProvider getItemProvider() {
         return new ItemBuilder(Material.BEACON)
-                .setDisplayName("§6Name: " + kingdom.getName());
+                .setDisplayName("§6Name: " + kingdom.getName())
+                .setLegacyLore("§6Level: " + kingdom.getLevel());
     }
 
     @Override

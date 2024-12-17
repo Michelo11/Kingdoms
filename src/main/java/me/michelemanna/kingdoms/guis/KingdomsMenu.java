@@ -12,11 +12,16 @@ import xyz.xenondevs.invui.window.Window;
 
 public class KingdomsMenu {
     public void open(Player player) {
-        KingdomsPlugin.getInstance().getDatabase().getKingdoms().thenAccept(kingdoms -> {
+        KingdomsPlugin.getInstance().getDatabase().getKingdoms().thenAcceptAsync(kingdoms -> {
             if (kingdoms.isEmpty()) {
                 player.sendMessage(KingdomsPlugin.getInstance().getMessage("guis.no-kingdoms"));
                 return;
             }
+
+
+            Kingdom kingdom = KingdomsPlugin.getInstance().getDatabase().getKingdom(player.getUniqueId()).join();
+
+            List<Kingdom> near = KingdomsPlugin.getInstance().getKingdomManger().getNearbyKingdoms(kingdom);
 
             PagedGui<Item> gui = PagedGui.items()
                     .setStructure(
@@ -25,7 +30,8 @@ public class KingdomsMenu {
                             "# . . . . . . . #",
                             "# # # < # > # # #"
                     )
-                    .setContent(kingdoms.stream().map(KingdomItem::new).map(item -> (Item) item).toList())
+                    .setContent(kingdoms.stream().sort(kingdom -> near.contains(kingdom) ? -1 : 1)
+                    .map(KingdomItem::new).map(item -> (Item) item).toList())
                     .addIngredient('.', Markers.CONTENT_LIST_SLOT_HORIZONTAL)
                     .addIngredient('<', new NavigationItem(false))
                     .addIngredient('>', new NavigationItem(true))

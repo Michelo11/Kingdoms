@@ -40,4 +40,20 @@ public class KingdomManager {
     public List<Kingdom> getKingdoms() {
         return kingdoms;
     }
+
+    public List<Kingdom> getNearbyKingdoms(Kingdom kingdom) {
+        List<Kingdom> nearbyKingdoms = new ArrayList<>();
+
+        for (Kingdom k : kingdoms) {
+            if (k.equals(kingdom)) {
+                continue;
+            }
+
+            if (k.getTerritory().isNear(kingdom.getTerritory())) {
+                nearbyKingdoms.add(k);
+            }
+        }
+
+        return nearbyKingdoms;
+    }
 }
