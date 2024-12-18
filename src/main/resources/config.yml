@@ -8,6 +8,9 @@ database:
   database: "kingdoms"
   ssl: false
 
+# War configuration
+war-time: 10
+
 # Messages configuration
 messages:
   commands:
@@ -47,10 +50,20 @@ messages:
     war-accept:
       prompt: "&8» &7Do you want to accept the war declared by the kingdom &e%name%&7? (yes/no)"
       success: "&8» &aYou have accepted the war declared by the kingdom &e%name%"
-      success-attacker: "&8» &aThe kingdom &e%name% &ahas accepted the war"
+      title-success: "&a&lWar accepted"
+      subtitle-success: "&7You have accepted the war declared by the kingdom &e%name%"
+      subtitle-success-attacker: "&7The kingdom &e%name% &7has accepted the war"
       no-war: "&8» &cYou have decided not to accept the war"
       no-war-attacker: "&8» &cThe kingdom &e%name% &cdecided not to accept the war"
       invalid: "&8» &cInvalid response"
   listeners:
     title: "&a&l%name%"
     subtitle: "&7You have entered the territory of &e%name%"
+  managers:
+    bossbar:
+      name: "&a&lWar"
+    war:
+      title-success: "&a&lWar declared"
+      subtitle-success: "&7You won the war against the kingdom &e%name%"
+      title-failure: "&c&lWar declared"
+      subtitle-failure: "&7You lost the war against the kingdom &e%name%"

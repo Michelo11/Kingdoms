@@ -11,7 +11,10 @@ public class WarManager {
     private final List<War> wars = new ArrayList<>();
 
     public void startWar(Kingdom attacker, Kingdom defender) {
-        wars.add(new War(attacker, defender));
+        War war = new War(attacker, defender);
+
+        wars.add(war);
+        war.start();
     }
 
     public void endWar(War war) {
@@ -24,7 +27,8 @@ public class WarManager {
 
     public void handleKill(UUID player) {
         wars.stream()
-                .filter(war -> war.getAttacker().getMembers().contains(player) || war.getDefender().getMembers().contains(player))
+                .filter(war -> war.getAttacker().getMembers().contains(player) || war.getDefender().getMembers().contains(player) ||
+                        war.getAttacker().getLeaderId().equals(player) || war.getDefender().getLeaderId().equals(player))
                 .forEach(war -> war.getDeaths().add(player));
     }
 }

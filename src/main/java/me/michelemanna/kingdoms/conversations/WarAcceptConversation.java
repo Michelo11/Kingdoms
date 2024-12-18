@@ -3,6 +3,7 @@ package me.michelemanna.kingdoms.conversations;
 import me.michelemanna.kingdoms.KingdomsPlugin;
 import me.michelemanna.kingdoms.data.Kingdom;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.Prompt;
 import org.bukkit.conversations.StringPrompt;
@@ -31,9 +32,13 @@ public class WarAcceptConversation extends StringPrompt {
 
 
             if (input.equalsIgnoreCase("yes")) {
-                if (player != null) player.sendMessage(KingdomsPlugin.getInstance().getMessage("conversations.war-accept.success-attacker").replace("%name%", defender.getName()));
+                if (player != null) {
+                    player.sendTitle(KingdomsPlugin.getInstance().getMessage("conversations.war-accept.title-success"), KingdomsPlugin.getInstance().getMessage("conversations.war-accept.subtitle-success-attacker").replace("%name%", defender.getName()), 10, 30, 10);
+                    player.playSound(player, Sound.BLOCK_ANVIL_FALL, 1, 1);
+                }
 
-                context.getForWhom().sendRawMessage(KingdomsPlugin.getInstance().getMessage("conversations.war-accept.success").replace("%name%", attacker.getName()));
+                ((Player) context.getForWhom()).sendTitle(KingdomsPlugin.getInstance().getMessage("conversations.war-accept.title-success"), KingdomsPlugin.getInstance().getMessage("conversations.war-accept.subtitle-success").replace("%name%", attacker.getName()), 10, 30, 10);
+                ((Player) context.getForWhom()).playSound(((Player) context.getForWhom()), Sound.BLOCK_ANVIL_FALL, 1, 1);
 
                 KingdomsPlugin.getInstance().getWarManager().startWar(attacker, defender);
             } else if (input.equalsIgnoreCase("no")) {

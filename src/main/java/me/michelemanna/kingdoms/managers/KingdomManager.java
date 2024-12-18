@@ -2,6 +2,8 @@ package me.michelemanna.kingdoms.managers;
 
 import me.michelemanna.kingdoms.KingdomsPlugin;
 import me.michelemanna.kingdoms.data.Kingdom;
+import me.michelemanna.kingdoms.data.Territory;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,14 +45,22 @@ public class KingdomManager {
 
     public List<Kingdom> getNearbyKingdoms(Kingdom kingdom) {
         List<Kingdom> nearbyKingdoms = new ArrayList<>();
+        List<Territory> territories = KingdomsPlugin.getInstance().getTerritoryManager().getChunks(kingdom.getId());
 
         for (Kingdom k : kingdoms) {
             if (k.equals(kingdom)) {
                 continue;
             }
 
-            if (k.getTerritory().isNear(kingdom.getTerritory())) {
-                nearbyKingdoms.add(k);
+            List<Territory> kTerritories = KingdomsPlugin.getInstance().getTerritoryManager().getChunks(k.getId());
+
+            for (Territory territory : territories) {
+                for (Territory kTerritory : kTerritories) {
+                    if (territory.isNear(kTerritory)) {
+                        nearbyKingdoms.add(k);
+                        break;
+                    }
+                }
             }
         }
 

@@ -2,7 +2,7 @@ package me.michelemanna.kingdoms.managers;
 
 import me.michelemanna.kingdoms.data.Territory;
 import org.bukkit.Chunk;
-import org.bukkit.Location;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

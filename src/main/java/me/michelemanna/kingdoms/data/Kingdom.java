@@ -1,5 +1,6 @@
 package me.michelemanna.kingdoms.data;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -10,7 +11,7 @@ public class Kingdom {
     private int level;
     private int funds;
     private int experience;
-    private List<UUID> members;
+    private List<UUID> members = new ArrayList<>();
 
     public Kingdom(int id, String name, UUID leaderId, int level, int funds, int experience) {
         this.id = id;

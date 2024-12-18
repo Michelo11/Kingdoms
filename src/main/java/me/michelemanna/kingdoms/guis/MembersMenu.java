@@ -2,7 +2,6 @@ package me.michelemanna.kingdoms.guis;
 
 import me.michelemanna.kingdoms.KingdomsPlugin;
 import me.michelemanna.kingdoms.data.Kingdom;
-import me.michelemanna.kingdoms.guis.items.KingdomItem;
 import me.michelemanna.kingdoms.guis.items.MemberItem;
 import me.michelemanna.kingdoms.guis.items.NavigationItem;
 import org.bukkit.Bukkit;

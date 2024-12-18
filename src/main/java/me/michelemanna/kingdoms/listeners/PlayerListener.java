@@ -5,8 +5,10 @@ import me.michelemanna.kingdoms.data.Kingdom;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.Sound;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
@@ -25,7 +27,7 @@ public class PlayerListener implements Listener {
 
         if (kingdom == null) return;
 
-        if (kingdom.getMembers().contains(event.getPlayer().getUniqueId())) {
+        if (kingdom.getMembers().contains(event.getPlayer().getUniqueId()) || kingdom.getLeaderId().equals(event.getPlayer().getUniqueId())) {
             return;
         }
 
@@ -56,5 +58,11 @@ public class PlayerListener implements Listener {
         String subtitle = KingdomsPlugin.getInstance().getMessage("listeners.subtitle").replace("%name%", leader.getName());
 
         event.getPlayer().sendTitle(title, subtitle, 10, 30, 10);
+        event.getPlayer().playSound(event.getPlayer(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1, 1);
+    }
+
+    @EventHandler
+    public void onDeath(PlayerDeathEvent event) {
+        KingdomsPlugin.getInstance().getWarManager().handleKill(event.getEntity().getUniqueId());
     }
 }

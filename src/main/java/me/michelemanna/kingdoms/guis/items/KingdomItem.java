@@ -13,6 +13,8 @@ import xyz.xenondevs.invui.item.ItemProvider;
 import xyz.xenondevs.invui.item.builder.ItemBuilder;
 import xyz.xenondevs.invui.item.impl.AbstractItem;
 
+import java.util.List;
+
 public class KingdomItem extends AbstractItem {
     private final Kingdom kingdom;
 
@@ -24,7 +26,7 @@ public class KingdomItem extends AbstractItem {
     public ItemProvider getItemProvider() {
         return new ItemBuilder(Material.BEACON)
                 .setDisplayName("§6Name: " + kingdom.getName())
-                .setLegacyLore("§6Level: " + kingdom.getLevel());
+                .setLegacyLore(List.of("§6Level: " + kingdom.getLevel()));
     }
 
     @Override
