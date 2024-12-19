@@ -33,6 +33,11 @@ public class KingdomItem extends AbstractItem {
     public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent inventoryClickEvent) {
         player.closeInventory();
 
+        if (kingdom.getLeaderId().equals(player.getUniqueId())) {
+            player.sendMessage(KingdomsPlugin.getInstance().getMessage("guis.cant_war_yourself"));
+            return;
+        }
+
         WarConfirmConversation conversation = new WarConfirmConversation(kingdom);
 
         new ConversationFactory(KingdomsPlugin.getInstance())

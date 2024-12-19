@@ -8,6 +8,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -20,6 +21,23 @@ public class PlayerListener implements Listener {
         if (event.getClickedBlock() == null) return;
 
         Integer id = KingdomsPlugin.getInstance().getTerritoryManager().getKingdom(event.getClickedBlock().getLocation().getChunk());
+
+        if (id == null) return;
+
+        Kingdom kingdom = KingdomsPlugin.getInstance().getKingdomManager().getKingdom(id);
+
+        if (kingdom == null) return;
+
+        if (kingdom.getMembers().contains(event.getPlayer().getUniqueId()) || kingdom.getLeaderId().equals(event.getPlayer().getUniqueId())) {
+            return;
+        }
+
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onPlace(BlockPlaceEvent event) {
+        Integer id = KingdomsPlugin.getInstance().getTerritoryManager().getKingdom(event.getBlock().getLocation().getChunk());
 
         if (id == null) return;
 

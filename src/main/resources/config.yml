@@ -8,8 +8,31 @@ database:
   database: "kingdoms"
   ssl: false
 
-# War configuration
-war-time: 10
+# Kingdom configuration
+kingdom:
+  war-time: 10
+  war-experience: 100
+  levels:
+    1:
+      experience: 100
+      max-members: 10
+      max-territories: 3
+    2:
+      experience: 250
+      max-members: 20
+      max-territories: 5
+    3:
+      experience: 500
+      max-members: 30
+      max-territories: 8
+    4:
+      experience: 1000
+      max-members: 50
+      max-territories: 12
+    5:
+      experience: 2000
+      max-members: 70
+      max-territories: 20
 
 # Messages configuration
 messages:
@@ -30,11 +53,24 @@ messages:
     claim-territory:
       already-claimed: "&8» &cThe territory is already claimed"
       success: "&8» &aYou have claimed the territory"
+      max-territories: "&8» &cYou have reached the maximum number of territories"
+    unclaim-territory:
+      not-claimed: "&8» &cThe territory is not claimed"
+      no-kingdom: "&8» &cYou don't have a kingdom"
+      not-your-territory: "&8» &cYou can't unclaim this territory"
+      last-territory: "&8» &cYou can't unclaim the last territory"
+      success: "&8» &aYou have unclaimed the territory"
+    member-kingdom:
+      usage: "&8» &cUsage: /kingdom member <player>"
+      no-kingdom: "&8» &cYou don't have a kingdom"
+      success: "&8» &aYou have added &e%player% &ato the kingdom"
+      max-members: "&8» &cYou have reached the maximum number of members"
   guis:
     kingdom-not-found: "&8» &cThe kingdom was not found"
     no-kingdoms: "&8» &cThere are no kingdoms"
     next-page: "&8» &aNext page"
     previous-page: "&8» &aPrevious page"
+    cant_war_yourself: "&8» &cYou can't declare war to your own kingdom"
     remove-member:
         success: "&8» &aYou have removed &e%player% &afrom the kingdom"
         error: "&8» &cAn error occurred while removing the player from the kingdom"
@@ -62,6 +98,9 @@ messages:
   managers:
     bossbar:
       name: "&a&lWar"
+    level-up:
+      title: "&a&lLevel up"
+      subtitle: "&7You have reached level &e%level%"
     war:
       title-success: "&a&lWar declared"
       subtitle-success: "&7You won the war against the kingdom &e%name%"

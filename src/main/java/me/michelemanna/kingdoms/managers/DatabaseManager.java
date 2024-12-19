@@ -236,7 +236,7 @@ public class DatabaseManager {
                 ResultSet set = statement.executeQuery();
 
                 if (set.next()) {
-                    Territory territory = new Territory(x, z, set.getBoolean("protected"));
+                    Territory territory = new Territory(x, z);
                     future.complete(territory);
                 } else {
                     future.complete(null);
@@ -297,7 +297,31 @@ public class DatabaseManager {
 
                 Kingdom kingdom = getKingdom(kingdomName).join();
 
-                KingdomsPlugin.getInstance().getTerritoryManager().addTerritory(kingdom.getId(), new Territory(x, z, false));
+                KingdomsPlugin.getInstance().getTerritoryManager().addTerritory(kingdom.getId(), new Territory(x, z));
+
+                statement.close();
+                provider.closeConnection(connection);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public void deleteTerritory(String kingdomName, int x, int z) {
+        Bukkit.getScheduler().runTaskAsynchronously(KingdomsPlugin.getInstance(), () -> {
+            try {
+                Connection connection = provider.getConnection();
+                PreparedStatement statement = connection.prepareStatement("DELETE FROM territories WHERE kingdom_name = ? AND chunk_x = ? AND chunk_z = ?");
+
+                statement.setString(1, kingdomName);
+                statement.setInt(2, x);
+                statement.setInt(3, z);
+
+                statement.executeUpdate();
+
+                Kingdom kingdom = getKingdom(kingdomName).join();
+
+                KingdomsPlugin.getInstance().getTerritoryManager().removeTerritory(kingdom.getId(), new Territory(x, z));
 
                 statement.close();
                 provider.closeConnection(connection);
@@ -341,7 +365,7 @@ public class DatabaseManager {
 
                 while (set.next()) {
                     int kingdomId = set.getInt("kingdom_id");
-                    Territory territory = new Territory(set.getInt("chunk_x"), set.getInt("chunk_z"), set.getBoolean("protected"));
+                    Territory territory = new Territory(set.getInt("chunk_x"), set.getInt("chunk_z"));
                     KingdomsPlugin.getInstance().getTerritoryManager().addTerritory(kingdomId, territory);
                 }
 
@@ -444,6 +468,18 @@ public class DatabaseManager {
                 statement.setString(2, oldKingdomName);
 
                 statement.executeUpdate();
+
+                Kingdom oldKingdom = getKingdom(oldKingdomName).join();
+                Kingdom newKingdom = getKingdom(newKingdomName).join();
+
+                KingdomsPlugin.getInstance().getTerritoryManager().removeTerritories(oldKingdom.getId());
+                KingdomsPlugin.getInstance().getTerritoryManager().getTerritories().forEach((id, territories) -> {
+                    if (id == newKingdom.getId()) {
+                        territories.forEach(territory -> {
+                            KingdomsPlugin.getInstance().getTerritoryManager().addTerritory(oldKingdom.getId(), territory);
+                        });
+                    }
+                });
 
                 statement.close();
                 provider.closeConnection(connection);

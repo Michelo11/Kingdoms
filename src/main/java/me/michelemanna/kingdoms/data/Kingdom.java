@@ -1,5 +1,7 @@
 package me.michelemanna.kingdoms.data;
 
+import me.michelemanna.kingdoms.KingdomsPlugin;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -9,8 +11,8 @@ public class Kingdom {
     private String name;
     private final UUID leaderId;
     private int level;
-    private int funds;
     private int experience;
+    private int funds;
     private List<UUID> members = new ArrayList<>();
 
     public Kingdom(int id, String name, UUID leaderId, int level, int funds, int experience) {
@@ -54,7 +56,37 @@ public class Kingdom {
         return members;
     }
 
+    public void addExperience(int amount) {
+        this.experience += amount;
+    }
+
+    public boolean levelUp(int requiredExperience) {
+        if (this.experience >= requiredExperience) {
+            this.level++;
+            this.experience -= requiredExperience;
+            return true;
+        }
+        return false;
+    }
+
     public void setMembers(List<UUID> uuids) {
         this.members = uuids;
+    }
+
+    public int getMaxMembers() {
+        return KingdomsPlugin.getInstance().getConfig().getInt("kingdom.levels." + level + ".max-members", 0);
+    }
+
+    public int getMaxTerritories() {
+        return KingdomsPlugin.getInstance().getConfig().getInt("kingdom.levels." + level + ".max-territories", 0);
+    }
+
+    public boolean canAddMember() {
+        return members.size() < getMaxMembers();
+    }
+
+    public boolean canAddTerritory() {
+        int currentTerritories = KingdomsPlugin.getInstance().getTerritoryManager().getChunks(id).size();
+        return currentTerritories >= getMaxTerritories();
     }
 }

@@ -27,6 +27,11 @@ public class ClaimTerritoryCommand implements SubCommand {
                     return;
                 }
 
+                if (kingdom.canAddTerritory()) {
+                    player.sendMessage(KingdomsPlugin.getInstance().getMessage("commands.claim-territory.max-territories"));
+                    return;
+                }
+
                 KingdomsPlugin.getInstance().getDatabase().createTerritory(kingdom.getName(), x, z);
 
                 player.sendMessage(KingdomsPlugin.getInstance().getMessage("commands.claim-territory.success"));

@@ -21,10 +21,6 @@ public class WarManager {
         wars.remove(war);
     }
 
-    public List<War> getWars() {
-        return wars;
-    }
-
     public void handleKill(UUID player) {
         wars.stream()
                 .filter(war -> war.getAttacker().getMembers().contains(player) || war.getDefender().getMembers().contains(player) ||

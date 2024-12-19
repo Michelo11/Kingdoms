@@ -37,6 +37,12 @@ public class TerritoryManager {
         territories.remove(id);
     }
 
+    public void removeTerritory(Integer id, Territory territory) {
+        List<Territory> items = territories.get(id);
+        if (items != null)
+            items.remove(territory);
+    }
+
     public Map<Integer, List<Territory>> getTerritories() {
         return territories;
     }

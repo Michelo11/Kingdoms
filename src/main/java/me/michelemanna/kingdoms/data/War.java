@@ -2,6 +2,7 @@ package me.michelemanna.kingdoms.data;
 
 import me.michelemanna.kingdoms.KingdomsPlugin;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
@@ -18,7 +19,7 @@ public class War {
     private final Kingdom attacker;
     private final Kingdom defender;
     private final List<UUID> deaths = new ArrayList<>();
-    private final BossBar bossBar = Bukkit.createBossBar(KingdomsPlugin.getInstance().getMessage("messages.managers.bossbar.name"), BarColor.RED, BarStyle.SOLID);
+    private final BossBar bossBar = Bukkit.createBossBar(KingdomsPlugin.getInstance().getMessage("managers.bossbar.name"), BarColor.RED, BarStyle.SOLID);
     private BukkitTask task;
 
     public War(Kingdom attacker, Kingdom defender) {
@@ -47,6 +48,8 @@ public class War {
 
         members.addAll(attacker.getMembers());
         members.addAll(defender.getMembers());
+        members.add(attacker.getLeaderId());
+        members.add(defender.getLeaderId());
 
         members.forEach(uuid -> {
             Player player = Bukkit.getPlayer(uuid);
@@ -57,7 +60,7 @@ public class War {
         });
 
         final Instant startTime = Instant.now();
-        final int warTime = KingdomsPlugin.getInstance().getConfig().getInt("war-time");
+        final int warTime = KingdomsPlugin.getInstance().getConfig().getInt("kingdom.war-time");
 
         task = new BukkitRunnable() {
             @Override
@@ -81,8 +84,8 @@ public class War {
         task.cancel();
         KingdomsPlugin.getInstance().getWarManager().endWar(this);
 
-        int attackerDeaths = (int) deaths.stream().filter(attacker.getMembers()::contains).count();
-        int defenderDeaths = (int) deaths.stream().filter(defender.getMembers()::contains).count();
+        int attackerDeaths = (int) deaths.stream().filter(uuid -> attacker.getMembers().contains(uuid) || attacker.getLeaderId().equals(uuid)).count();
+        int defenderDeaths = (int) deaths.stream().filter(uuid -> defender.getMembers().contains(uuid) || defender.getLeaderId().equals(uuid)).count();
 
         Kingdom winner = null;
         Kingdom loser = null;
@@ -97,6 +100,7 @@ public class War {
 
         if (winner == null) return;
 
+        KingdomsPlugin.getInstance().getKingdomManager().addExperience(winner, KingdomsPlugin.getInstance().getConfig().getInt("kingdom.war-experience"));
         KingdomsPlugin.getInstance().getDatabase().transferMembers(loser.getName(), winner.getName());
         KingdomsPlugin.getInstance().getDatabase().transferChunks(loser.getName(), winner.getName());
 
@@ -104,11 +108,13 @@ public class War {
         Player loserPlayer = Bukkit.getPlayer(loser.getLeaderId());
 
         if (winnerPlayer != null) {
-            winnerPlayer.sendTitle(KingdomsPlugin.getInstance().getMessage("messages.managers.war.title-success"), KingdomsPlugin.getInstance().getMessage("messages.managers.subtitle-success").replace("%name%", loser.getName()), 10 , 30, 10);
+            winnerPlayer.sendTitle(KingdomsPlugin.getInstance().getMessage("managers.war.title-success"), KingdomsPlugin.getInstance().getMessage("managers.subtitle-success").replace("%name%", loser.getName()), 10 , 30, 10);
+            winnerPlayer.playSound(winnerPlayer, Sound.ENTITY_ENDER_DRAGON_DEATH, 1, 1);
         }
 
         if (loserPlayer != null) {
-            loserPlayer.sendTitle(KingdomsPlugin.getInstance().getMessage("messages.managers.war.title-failure"), KingdomsPlugin.getInstance().getMessage("messages.managers.subtitle-failure").replace("%name%", winner.getName()), 10 , 30, 10);
+            loserPlayer.sendTitle(KingdomsPlugin.getInstance().getMessage("managers.war.title-failure"), KingdomsPlugin.getInstance().getMessage("managers.subtitle-failure").replace("%name%", winner.getName()), 10 , 30, 10);
+            loserPlayer.playSound(loserPlayer, Sound.ENTITY_ENDER_DRAGON_DEATH, 1, 1);
         }
     }
 }

@@ -32,13 +32,12 @@ public class KingdomTerritoryItem extends AbstractItem {
         KingdomsPlugin.getInstance().getDatabase().getKingdom(player.getUniqueId()).thenAccept(kingdom -> {
             List<Chunk> chunks = KingdomsPlugin.getInstance().getTerritoryManager().getChunks(kingdom.getId()).stream()
                     .map(territory -> player.getWorld().getChunkAt(territory.x(), territory.z()))
-                    .filter(chunk -> player.getLocation().distanceSquared(chunk.getBlock(0, player.getLocation().getBlockY(), 0).getLocation()) <= 200)
                     .toList();
 
             for (Chunk chunk : chunks) {
                 World world = chunk.getWorld();
                 Location first = chunk.getBlock(0, world.getMinHeight(), 0).getLocation();
-                Location last = chunk.getBlock(15, world.getMaxHeight(), 15).getLocation();
+                Location last = chunk.getBlock(15, world.getMaxHeight() - 1, 15).getLocation();
                 Particles.cube(first, last, 1, ParticleDisplay.of(XParticle.HAPPY_VILLAGER).onlyVisibleTo(player));
             }
         });

@@ -47,7 +47,6 @@ public class SQLiteProvider implements ConnectionProvider {
                 "kingdom_name TEXT NOT NULL, " +
                 "chunk_x INTEGER NOT NULL, " +
                 "chunk_z INTEGER NOT NULL, " +
-                "protected INTEGER DEFAULT 0, " +
                 "FOREIGN KEY (kingdom_name) REFERENCES kingdoms(name) ON DELETE CASCADE" +
                 ")");
 

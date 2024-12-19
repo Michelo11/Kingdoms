@@ -3,6 +3,9 @@ package me.michelemanna.kingdoms.managers;
 import me.michelemanna.kingdoms.KingdomsPlugin;
 import me.michelemanna.kingdoms.data.Kingdom;
 import me.michelemanna.kingdoms.data.Territory;
+import org.bukkit.Bukkit;
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,5 +68,25 @@ public class KingdomManager {
         }
 
         return nearbyKingdoms;
+    }
+
+    public void addExperience(Kingdom kingdom, int amount) {
+        kingdom.addExperience(amount);
+
+        Player player = Bukkit.getPlayer(kingdom.getLeaderId());
+
+        int requiredExperience = KingdomsPlugin.getInstance().getConfig()
+                .getInt("kingdom.levels." + kingdom.getLevel() + ".experience", -1);
+
+        if (requiredExperience == -1) return;
+
+        if (kingdom.levelUp(requiredExperience)) {
+            KingdomsPlugin.getInstance().getDatabase().updateKingdom(kingdom);
+
+            if (player != null) {
+                player.sendTitle(KingdomsPlugin.getInstance().getMessage("managers.level.level-up.title"), KingdomsPlugin.getInstance().getMessage("managers.level.level-up.subtitle").replace("%level%", String.valueOf(kingdom.getLevel())), 10, 30, 10);
+                player.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
+            }
+        }
     }
 }

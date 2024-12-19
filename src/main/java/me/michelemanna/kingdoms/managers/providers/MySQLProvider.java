@@ -63,7 +63,6 @@ public class MySQLProvider implements ConnectionProvider {
                 "kingdom_name VARCHAR(255) NOT NULL," +
                 "chunk_x INT NOT NULL," +
                 "chunk_z INT NOT NULL," +
-                "protected BOOLEAN DEFAULT FALSE," +
                 "FOREIGN KEY (kingdom_name) REFERENCES kingdoms(name) ON DELETE CASCADE" +
                 ")");
 
