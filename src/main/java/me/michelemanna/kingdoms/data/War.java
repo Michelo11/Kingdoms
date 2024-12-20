@@ -108,12 +108,13 @@ public class War {
         Player loserPlayer = Bukkit.getPlayer(loser.getLeaderId());
 
         if (winnerPlayer != null) {
-            winnerPlayer.sendTitle(KingdomsPlugin.getInstance().getMessage("managers.war.title-success"), KingdomsPlugin.getInstance().getMessage("managers.subtitle-success").replace("%name%", loser.getName()), 10 , 30, 10);
+            winnerPlayer.sendTitle(KingdomsPlugin.getInstance().getMessage("managers.war.title-success"), KingdomsPlugin.getInstance().getMessage("managers.war.subtitle-success").replace("%name%", loser.getName()), 10 , 30, 10);
             winnerPlayer.playSound(winnerPlayer, Sound.ENTITY_ENDER_DRAGON_DEATH, 1, 1);
+            winnerPlayer.sendMessage(KingdomsPlugin.getInstance().getMessage("managers.war.experience").replace("%experience%", String.valueOf(KingdomsPlugin.getInstance().getConfig().getInt("kingdom.war-experience"))));
         }
 
         if (loserPlayer != null) {
-            loserPlayer.sendTitle(KingdomsPlugin.getInstance().getMessage("managers.war.title-failure"), KingdomsPlugin.getInstance().getMessage("managers.subtitle-failure").replace("%name%", winner.getName()), 10 , 30, 10);
+            loserPlayer.sendTitle(KingdomsPlugin.getInstance().getMessage("managers.war.title-failure"), KingdomsPlugin.getInstance().getMessage("managers.war.subtitle-failure").replace("%name%", winner.getName()), 10 , 30, 10);
             loserPlayer.playSound(loserPlayer, Sound.ENTITY_ENDER_DRAGON_DEATH, 1, 1);
         }
     }

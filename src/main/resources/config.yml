@@ -10,27 +10,28 @@ database:
 
 # Kingdom configuration
 kingdom:
-  war-time: 300
+  war-time: 10
   war-experience: 100
+  funds-amount: 100
   levels:
     1:
-      experience: 100
+      experience: 0
       max-members: 10
       max-territories: 3
     2:
-      experience: 250
+      experience: 100
       max-members: 20
       max-territories: 5
     3:
-      experience: 500
+      experience: 250
       max-members: 30
       max-territories: 8
     4:
-      experience: 1000
+      experience: 500
       max-members: 50
       max-territories: 12
     5:
-      experience: 2000
+      experience: 1000
       max-members: 70
       max-territories: 20
 
@@ -62,15 +63,16 @@ messages:
       success: "&8» &aYou have unclaimed the territory"
     member-kingdom:
       usage: "&8» &cUsage: /kingdom member <player>"
-      no-kingdom: "&8» &cYou don't have a kingdom"
-      success: "&8» &aYou have added &e%player% &ato the kingdom"
-      max-members: "&8» &cYou have reached the maximum number of members"
+      invite-sent: "&8» &aYou have sent an invitation to &e%player%"
   guis:
     kingdom-not-found: "&8» &cThe kingdom was not found"
     no-kingdoms: "&8» &cThere are no kingdoms"
     next-page: "&8» &aNext page"
     previous-page: "&8» &aPrevious page"
-    cant_war_yourself: "&8» &cYou can't declare war to your own kingdom"
+    cant-war-yourself: "&8» &cYou can't declare war to your own kingdom"
+    kingdom-funds:
+      withdraw: "&8» &7You have been withdrawn &e%amount% &afor the kingdom funds"
+      success: "&8» &aYou have deposited &e%amount% &ato the kingdom funds"
     remove-member:
         success: "&8» &aYou have removed &e%player% &afrom the kingdom"
         error: "&8» &cAn error occurred while removing the player from the kingdom"
@@ -92,17 +94,22 @@ messages:
       no-war: "&8» &cYou have decided not to accept the war"
       no-war-attacker: "&8» &cThe kingdom &e%name% &cdecided not to accept the war"
       invalid: "&8» &cInvalid response"
+    invite-member:
+      prompt: "&8» &7Do you want to invite &e%player% &7to the kingdom? (yes/no)"
+      already-member: "&8» &cThe player is already a member of the kingdom"
+      no-kingdom: "&8» &cYou don't have a kingdom"
+      success: "&8» &aYou have added &e%player% &ato the kingdom"
+      max-members: "&8» &cYou have reached the maximum number of members"
   listeners:
     title: "&a&l%name%"
     subtitle: "&7You have entered the territory of &e%name%"
   managers:
     bossbar:
       name: "&a&lWar"
-    level-up:
-      title: "&a&lLevel up"
-      subtitle: "&7You have reached level &e%level%"
+    level-up: "&8» &7You have leveled up to level &e%level%"
     war:
-      title-success: "&a&lWar declared"
+      title-success: "&a&lYou won"
       subtitle-success: "&7You won the war against the kingdom &e%name%"
-      title-failure: "&c&lWar declared"
+      title-failure: "&c&lYou lost"
       subtitle-failure: "&7You lost the war against the kingdom &e%name%"
+      experience: "&8» &7You have earned &e%experience% &7experience"

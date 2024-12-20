@@ -2,7 +2,9 @@ package me.michelemanna.kingdoms.commands.subcommands;
 
 import me.michelemanna.kingdoms.KingdomsPlugin;
 import me.michelemanna.kingdoms.commands.SubCommand;
+import me.michelemanna.kingdoms.conversations.InviteMemberConversation;
 import org.bukkit.Bukkit;
+import org.bukkit.conversations.ConversationFactory;
 import org.bukkit.entity.Player;
 
 public class MemberKingdomCommand implements SubCommand {
@@ -25,20 +27,16 @@ public class MemberKingdomCommand implements SubCommand {
             return;
         }
 
-        KingdomsPlugin.getInstance().getDatabase().getKingdom(player.getUniqueId()).thenAccept(kingdom -> {
-            if (kingdom == null) {
-                player.sendMessage(KingdomsPlugin.getInstance().getMessage("commands.member-kingdom.no-kingdom"));
-                return;
-            }
+        InviteMemberConversation conversation = new InviteMemberConversation(player);
 
-            if (!kingdom.canAddMember()) {
-                player.sendMessage(KingdomsPlugin.getInstance().getMessage("commands.member-kingdom.max-members"));
-                return;
-            }
+        new ConversationFactory(KingdomsPlugin.getInstance())
+                .withEscapeSequence("cancel")
+                .withFirstPrompt(conversation)
+                .withModality(false)
+                .withLocalEcho(false)
+                .buildConversation(target)
+                .begin();
 
-            KingdomsPlugin.getInstance().getDatabase().addMember(kingdom.getName(), target.getUniqueId());
-
-            player.sendMessage(KingdomsPlugin.getInstance().getMessage("commands.member-kingdom.success").replace("%player%", target.getName()));
-        });
+        player.sendMessage(KingdomsPlugin.getInstance().getMessage("commands.member-kingdom.invite-sent").replace("%player%", target.getName()));
     }
 }

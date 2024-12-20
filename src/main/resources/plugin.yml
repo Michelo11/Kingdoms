@@ -5,6 +5,7 @@ api-version: '1.21'
 authors: [ Michelo11 ]
 description: Kingdoms is a plugin that adds clans, territorial wars, and an economy system to your server. Players can create and manage clans, declare wars, conquer territories, and complete missions for rewards. Build your kingdom and lead your clan to victory!
 website: https://michelemanna.me
+depend: [ Vault ]
 commands:
   kingdom:
     description: Main command for the Kingdoms plugin.

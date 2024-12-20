@@ -22,6 +22,7 @@ public class Kingdom {
         this.level = level;
         this.funds = funds;
         this.experience = experience;
+        KingdomsPlugin.getInstance().getDatabase().getKingdomMembers(name).thenAccept(this::setMembers);
     }
 
     public int getId() {
@@ -50,6 +51,10 @@ public class Kingdom {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setFunds(int funds) {
+        this.funds = funds;
     }
 
     public List<UUID> getMembers() {

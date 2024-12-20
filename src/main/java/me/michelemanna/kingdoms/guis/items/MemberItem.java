@@ -9,7 +9,11 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.jetbrains.annotations.NotNull;
 import xyz.xenondevs.invui.item.ItemProvider;
 import xyz.xenondevs.invui.item.builder.ItemBuilder;
+import xyz.xenondevs.invui.item.builder.SkullBuilder;
 import xyz.xenondevs.invui.item.impl.AbstractItem;
+import xyz.xenondevs.invui.util.MojangApiUtils;
+
+import java.io.IOException;
 import java.util.UUID;
 
 public class MemberItem extends AbstractItem {
@@ -21,8 +25,13 @@ public class MemberItem extends AbstractItem {
 
     @Override
     public ItemProvider getItemProvider() {
-        return new ItemBuilder(Material.PLAYER_HEAD)
-                .setDisplayName("§6Name: " + Bukkit.getOfflinePlayer(id).getName());
+        try {
+            return new SkullBuilder(id)
+                    .setDisplayName("§6Name: " + Bukkit.getOfflinePlayer(id).getName());
+        } catch (MojangApiUtils.MojangApiException | IOException e) {
+            return new ItemBuilder(Material.PLAYER_HEAD)
+                    .setDisplayName("§6Name: " + id);
+        }
     }
 
     @Override

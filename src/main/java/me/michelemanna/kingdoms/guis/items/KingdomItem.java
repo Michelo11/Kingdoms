@@ -34,7 +34,7 @@ public class KingdomItem extends AbstractItem {
         player.closeInventory();
 
         if (kingdom.getLeaderId().equals(player.getUniqueId())) {
-            player.sendMessage(KingdomsPlugin.getInstance().getMessage("guis.cant_war_yourself"));
+            player.sendMessage(KingdomsPlugin.getInstance().getMessage("guis.cant-war-yourself"));
             return;
         }
 

@@ -4,7 +4,6 @@ import me.michelemanna.kingdoms.KingdomsPlugin;
 import me.michelemanna.kingdoms.data.Kingdom;
 import me.michelemanna.kingdoms.data.Territory;
 import org.bukkit.Bukkit;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -16,6 +15,16 @@ public class KingdomManager {
     public Kingdom getKingdom(String name) {
         for (Kingdom kingdom : kingdoms) {
             if (kingdom.getName().equalsIgnoreCase(name)) {
+                return kingdom;
+            }
+        }
+
+        return null;
+    }
+
+    public Kingdom getKingdom(Player player) {
+        for (Kingdom kingdom : kingdoms) {
+            if (kingdom.getLeaderId().equals(player.getUniqueId())) {
                 return kingdom;
             }
         }
@@ -35,7 +44,6 @@ public class KingdomManager {
 
     public void addKingdom(Kingdom kingdom) {
         kingdoms.add(kingdom);
-        KingdomsPlugin.getInstance().getDatabase().getKingdomMembers(kingdom.getName()).thenAccept(kingdom::setMembers);
     }
 
     public void removeKingdom(Kingdom kingdom) {
@@ -83,10 +91,8 @@ public class KingdomManager {
         if (kingdom.levelUp(requiredExperience)) {
             KingdomsPlugin.getInstance().getDatabase().updateKingdom(kingdom);
 
-            if (player != null) {
-                player.sendTitle(KingdomsPlugin.getInstance().getMessage("managers.level.level-up.title"), KingdomsPlugin.getInstance().getMessage("managers.level.level-up.subtitle").replace("%level%", String.valueOf(kingdom.getLevel())), 10, 30, 10);
-                player.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
-            }
+            if (player != null)
+                player.sendMessage(KingdomsPlugin.getInstance().getMessage("managers.level.level-up").replace("%level%", String.valueOf(kingdom.getLevel())));
         }
     }
 }
