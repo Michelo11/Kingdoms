@@ -6,8 +6,7 @@ import me.michelemanna.kingdoms.data.Territory;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class KingdomManager {
     private final List<Kingdom> kingdoms = new ArrayList<>();

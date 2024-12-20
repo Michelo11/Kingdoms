@@ -54,7 +54,6 @@ public class MySQLProvider implements ConnectionProvider {
         statement.executeUpdate("CREATE TABLE IF NOT EXISTS members(" +
                 "uuid VARCHAR(36) NOT NULL," +
                 "kingdom_name VARCHAR(255) NOT NULL," +
-                "role VARCHAR(255) NOT NULL," +
                 "FOREIGN KEY (kingdom_name) REFERENCES kingdoms(name) ON DELETE CASCADE" +
                 ")");
 

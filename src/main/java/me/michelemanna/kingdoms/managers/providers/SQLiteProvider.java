@@ -38,7 +38,6 @@ public class SQLiteProvider implements ConnectionProvider {
         statement.executeUpdate("CREATE TABLE IF NOT EXISTS members(" +
                 "uuid TEXT NOT NULL, " +
                 "kingdom_name TEXT NOT NULL, " +
-                "role TEXT NOT NULL, " +
                 "FOREIGN KEY (kingdom_name) REFERENCES kingdoms(name) ON DELETE CASCADE" +
                 ")");
 

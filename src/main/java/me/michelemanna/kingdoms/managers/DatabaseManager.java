@@ -423,11 +423,10 @@ public class DatabaseManager {
         Bukkit.getScheduler().runTaskAsynchronously(KingdomsPlugin.getInstance(), () -> {
             try {
                 Connection connection = provider.getConnection();
-                PreparedStatement statement = connection.prepareStatement("INSERT INTO members (kingdom_name, uuid, role) VALUES (?, ?, ?)");
+                PreparedStatement statement = connection.prepareStatement("INSERT INTO members (kingdom_name, uuid) VALUES (?, ?)");
 
                 statement.setString(1, kingdomName);
                 statement.setString(2, playerId.toString());
-                statement.setString(3, "member");
 
                 statement.executeUpdate();
 

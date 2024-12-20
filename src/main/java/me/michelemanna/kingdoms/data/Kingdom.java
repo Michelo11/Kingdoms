@@ -2,9 +2,7 @@ package me.michelemanna.kingdoms.data;
 
 import me.michelemanna.kingdoms.KingdomsPlugin;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class Kingdom {
     private final int id;
