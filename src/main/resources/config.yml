@@ -10,7 +10,7 @@ database:
 
 # Kingdom configuration
 kingdom:
-  war-time: 10
+  war-time: 300
   war-experience: 100
   levels:
     1:

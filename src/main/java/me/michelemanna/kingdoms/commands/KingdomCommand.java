@@ -25,6 +25,7 @@ public class KingdomCommand implements TabExecutor {
         this.subCommands.put("claim", new ClaimTerritoryCommand());
         this.subCommands.put("unclaim", new UnclaimTerritoryCommand());
         this.subCommands.put("member", new MemberKingdomCommand());
+        this.subCommands.put("level", new LevelKingdomCommand());
     }
 
     @Override

@@ -60,7 +60,7 @@ public class War {
         });
 
         final Instant startTime = Instant.now();
-        final int warTime = KingdomsPlugin.getInstance().getConfig().getInt("kingdom.war-time");
+        final int warTime = KingdomsPlugin.getInstance().getConfig().getInt("kingdom.war-time", 300);
 
         task = new BukkitRunnable() {
             @Override
@@ -100,7 +100,7 @@ public class War {
 
         if (winner == null) return;
 
-        KingdomsPlugin.getInstance().getKingdomManager().addExperience(winner, KingdomsPlugin.getInstance().getConfig().getInt("kingdom.war-experience"));
+        KingdomsPlugin.getInstance().getKingdomManager().addExperience(winner, KingdomsPlugin.getInstance().getConfig().getInt("kingdom.war-experience", 100));
         KingdomsPlugin.getInstance().getDatabase().transferMembers(loser.getName(), winner.getName());
         KingdomsPlugin.getInstance().getDatabase().transferChunks(loser.getName(), winner.getName());
 
