@@ -71,8 +71,9 @@ messages:
     previous-page: "&8» &aPrevious page"
     cant-war-yourself: "&8» &cYou can't declare war to your own kingdom"
     kingdom-funds:
-      withdraw: "&8» &7You have been withdrawn &e%amount% &afor the kingdom funds"
-      success: "&8» &aYou have deposited &e%amount% &ato the kingdom funds"
+      withdraw: "&8» &aYou have been withdrawn &e%amount% &afor the kingdom funds"
+      success: "&8» &aYou have deposited &e%amount% &ainto the kingdom funds"
+      cooldown: "&8» &cYou can't withdraw funds yet"
     remove-member:
         success: "&8» &aYou have removed &e%player% &afrom the kingdom"
         error: "&8» &cAn error occurred while removing the player from the kingdom"

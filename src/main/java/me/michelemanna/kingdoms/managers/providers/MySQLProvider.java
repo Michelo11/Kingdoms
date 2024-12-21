@@ -48,6 +48,7 @@ public class MySQLProvider implements ConnectionProvider {
                 "leader_id VARCHAR(36) NOT NULL," +
                 "level INT DEFAULT 1," +
                 "funds INT DEFAULT 0," +
+                "last_funds_update DATE," +
                 "experience INT DEFAULT 0" +
                 ")");
 

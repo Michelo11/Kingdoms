@@ -32,6 +32,7 @@ public class SQLiteProvider implements ConnectionProvider {
                 "leader_id TEXT NOT NULL, " +
                 "level INTEGER DEFAULT 1, " +
                 "funds INTEGER DEFAULT 0, " +
+                "last_funds_update DATE, " +
                 "experience INTEGER DEFAULT 0" +
                 ")");
 

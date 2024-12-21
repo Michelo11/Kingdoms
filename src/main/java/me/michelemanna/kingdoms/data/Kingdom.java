@@ -3,6 +3,7 @@ package me.michelemanna.kingdoms.data;
 import me.michelemanna.kingdoms.KingdomsPlugin;
 
 import java.util.*;
+import java.sql.Date;
 
 public class Kingdom {
     private final int id;
@@ -12,14 +13,16 @@ public class Kingdom {
     private int experience;
     private int funds;
     private List<UUID> members = new ArrayList<>();
+    private Date lastFundsUpdate;
 
-    public Kingdom(int id, String name, UUID leaderId, int level, int funds, int experience) {
+    public Kingdom(int id, String name, UUID leaderId, int level, int funds, int experience, Date lastFundsUpdate) {
         this.id = id;
         this.name = name;
         this.leaderId = leaderId;
         this.level = level;
         this.funds = funds;
         this.experience = experience;
+        this.lastFundsUpdate = lastFundsUpdate;
         KingdomsPlugin.getInstance().getDatabase().getKingdomMembers(name).thenAccept(this::setMembers);
     }
 
@@ -39,6 +42,10 @@ public class Kingdom {
         return funds;
     }
 
+    public Date getLastFundsUpdate() {
+        return lastFundsUpdate;
+    }
+
     public UUID getLeaderId() {
         return leaderId;
     }
@@ -53,6 +60,10 @@ public class Kingdom {
 
     public void setFunds(int funds) {
         this.funds = funds;
+    }
+
+    public void setLastFundsUpdate(Date lastFundsUpdate) {
+        this.lastFundsUpdate = lastFundsUpdate;
     }
 
     public List<UUID> getMembers() {

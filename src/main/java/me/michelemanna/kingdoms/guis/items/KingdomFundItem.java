@@ -15,6 +15,7 @@ import xyz.xenondevs.invui.item.ItemProvider;
 import xyz.xenondevs.invui.item.builder.ItemBuilder;
 import xyz.xenondevs.invui.item.impl.AbstractItem;
 
+import java.sql.Date;
 import java.util.UUID;
 
 public class KingdomFundItem extends AbstractItem {
@@ -34,9 +35,21 @@ public class KingdomFundItem extends AbstractItem {
     public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent inventoryClickEvent) {
         Economy economy = Bukkit.getServicesManager().getRegistration(Economy.class).getProvider();
         double withdrawn = 0;
+        long cooldown = 86400000;
 
+        // check if the kingdom.lastFundsUpdate is not null and if the last update was less than 24 hours ago
+        if (kingdom.getLastFundsUpdate() != null && System.currentTimeMillis() - kingdom.getLastFundsUpdate().getTime() < cooldown) {
+            player.sendMessage(KingdomsPlugin.getInstance().getMessage("guis.kingdom-funds.cooldown"));
+            return;
+        }
+        System.out.println(kingdom.getLastFundsUpdate());
         for (UUID uuid : kingdom.getMembers()) {
             OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(uuid);
+
+            if (!economy.has(offlinePlayer, KingdomsPlugin.getInstance().getConfig().getDouble("kingdom.funds-amount", 0))) {
+                continue;
+            }
+
             EconomyResponse response = economy.withdrawPlayer(offlinePlayer, KingdomsPlugin.getInstance().getConfig().getDouble("kingdom.funds-amount", 0));
 
             if (response.transactionSuccess()) {
@@ -49,9 +62,12 @@ public class KingdomFundItem extends AbstractItem {
             }
         }
 
+        kingdom.setLastFundsUpdate(new Date(System.currentTimeMillis()));
         kingdom.setFunds(kingdom.getFunds() + (int) withdrawn);
 
+        KingdomsPlugin.getInstance().getDatabase().updateKingdom(kingdom);
+
         player.sendMessage(KingdomsPlugin.getInstance().getMessage("guis.kingdom-funds.success")
-                .replace("%amount%", String.valueOf(withdrawn)));
+                .replace("%amount%", String.valueOf((int) withdrawn)));
     }
 }

@@ -53,7 +53,8 @@ public class DatabaseManager {
                 List<Kingdom> kingdoms = new ArrayList<>();
 
                 while (set.next()) {
-                    Kingdom kingdom = new Kingdom(set.getInt("id"), set.getString("name"), UUID.fromString(set.getString("leader_id")), set.getInt("level"), set.getInt("funds"), set.getInt("experience"));
+                    Kingdom kingdom = new Kingdom(set.getInt("id"), set.getString("name"), UUID.fromString(set.getString("leader_id")),
+                            set.getInt("level"), set.getInt("funds"), set.getInt("experience"), set.getDate("last_funds_update"));
                     kingdoms.add(kingdom);
                     KingdomsPlugin.getInstance().getKingdomManager().addKingdom(kingdom);
                 }
@@ -84,7 +85,9 @@ public class DatabaseManager {
                 ResultSet set = statement.executeQuery();
 
                 if (set.next()) {
-                    Kingdom kingdom = new Kingdom(set.getInt("id"), set.getString("name"), leader_id, set.getInt("level"), set.getInt("funds"), set.getInt("experience"));
+                    Kingdom kingdom = new Kingdom(set.getInt("id"), set.getString("name"),
+                            leader_id, set.getInt("level"), set.getInt("funds"),
+                            set.getInt("experience"), set.getDate("last_funds_update"));
                     future.complete(kingdom);
                 } else {
                     future.complete(null);
@@ -116,7 +119,7 @@ public class DatabaseManager {
                 if (set.next()) {
                     Kingdom kingdom = new Kingdom(set.getInt("id"), set.getString("name"),
                             UUID.fromString(set.getString("leader_id")), set.getInt("level"),
-                            set.getInt("funds"), set.getInt("experience"));
+                            set.getInt("funds"), set.getInt("experience"), set.getDate("last_funds_update"));
                     future.complete(kingdom);
                 } else {
                     future.complete(null);
@@ -152,7 +155,7 @@ public class DatabaseManager {
                 set.next();
                 int id = set.getInt(1);
 
-                KingdomsPlugin.getInstance().getKingdomManager().addKingdom(new Kingdom(id, kingdomName, leaderId, 1, 0, 0));
+                KingdomsPlugin.getInstance().getKingdomManager().addKingdom(new Kingdom(id, kingdomName, leaderId, 1, 0, 0, null));
 
                 statement.close();
                 provider.closeConnection(connection);
@@ -201,13 +204,14 @@ public class DatabaseManager {
         Bukkit.getScheduler().runTaskAsynchronously(KingdomsPlugin.getInstance(), () -> {
             try {
                 Connection connection = provider.getConnection();
-                PreparedStatement statement = connection.prepareStatement("UPDATE kingdoms SET level = ?, funds = ?, experience = ?, name = ? WHERE id = ?");
+                PreparedStatement statement = connection.prepareStatement("UPDATE kingdoms SET level = ?, funds = ?, experience = ?, name = ?, last_funds_update = ? WHERE id = ?");
 
                 statement.setInt(1, kingdom.getLevel());
                 statement.setInt(2, kingdom.getFunds());
                 statement.setInt(3, kingdom.getExperience());
                 statement.setString(4, kingdom.getName());
-                statement.setInt(5, kingdom.getId());
+                statement.setDate(5, kingdom.getLastFundsUpdate());
+                statement.setInt(6, kingdom.getId());
 
                 int rows = statement.executeUpdate();
 
