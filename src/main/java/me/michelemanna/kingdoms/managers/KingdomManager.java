@@ -91,7 +91,7 @@ public class KingdomManager {
             KingdomsPlugin.getInstance().getDatabase().updateKingdom(kingdom);
 
             if (player != null)
-                player.sendMessage(KingdomsPlugin.getInstance().getMessage("managers.level.level-up").replace("%level%", String.valueOf(kingdom.getLevel())));
+                player.sendMessage(KingdomsPlugin.getInstance().getMessage("managers.level-up").replace("%level%", String.valueOf(kingdom.getLevel())));
         }
     }
 }

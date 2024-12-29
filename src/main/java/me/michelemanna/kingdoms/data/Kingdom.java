@@ -103,4 +103,16 @@ public class Kingdom {
         int currentTerritories = KingdomsPlugin.getInstance().getTerritoryManager().getChunks(id).size();
         return currentTerritories >= getMaxTerritories();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Kingdom kingdom = (Kingdom) o;
+        return id == kingdom.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
 }

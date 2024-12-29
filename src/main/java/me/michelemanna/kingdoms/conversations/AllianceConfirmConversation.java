@@ -11,28 +11,28 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class WarConfirmConversation extends StringPrompt {
-    private final Kingdom defender;
+public class AllianceConfirmConversation extends StringPrompt {
+    private final Kingdom ally;
 
-    public WarConfirmConversation(Kingdom defender) {
-        this.defender = defender;
+    public AllianceConfirmConversation(Kingdom ally) {
+        this.ally = ally;
     }
 
     @Override
     public @NotNull String getPromptText(@NotNull ConversationContext context) {
-        return KingdomsPlugin.getInstance().getMessage("conversations.war-confirm.prompt").replace("%name%", defender.getName());
+        return KingdomsPlugin.getInstance().getMessage("conversations.alliance-confirm.prompt").replace("%name%", ally.getName());
     }
 
     @Override
     public @Nullable Prompt acceptInput(@NotNull ConversationContext context, @Nullable String input) {
         if (input == null) return this;
 
-        Player player = Bukkit.getPlayer(defender.getLeaderId());
+        Player player = Bukkit.getPlayer(ally.getLeaderId());
 
         if (input.equalsIgnoreCase("yes")) {
             KingdomsPlugin.getInstance().getDatabase().getKingdom(((Player) context.getForWhom()).getUniqueId()).thenAccept(kingdom -> {
                 if (player != null) {
-                    WarAcceptConversation conversation = new WarAcceptConversation(kingdom);
+                    AllianceAcceptConversation conversation = new AllianceAcceptConversation(kingdom);
 
                     new ConversationFactory(KingdomsPlugin.getInstance())
                             .withEscapeSequence("cancel")
@@ -44,11 +44,11 @@ public class WarConfirmConversation extends StringPrompt {
                 }
             });
 
-            context.getForWhom().sendRawMessage(KingdomsPlugin.getInstance().getMessage("conversations.war-confirm.success").replace("%name%", defender.getName()));
+            context.getForWhom().sendRawMessage(KingdomsPlugin.getInstance().getMessage("conversations.alliance-confirm.success").replace("%name%", ally.getName()));
         } else if (input.equalsIgnoreCase("no")) {
-            context.getForWhom().sendRawMessage(KingdomsPlugin.getInstance().getMessage("conversations.war-confirm.no-war"));
+            context.getForWhom().sendRawMessage(KingdomsPlugin.getInstance().getMessage("conversations.alliance-confirm.no-alliance"));
         } else {
-            context.getForWhom().sendRawMessage(KingdomsPlugin.getInstance().getMessage("conversations.war-confirm.invalid"));
+            context.getForWhom().sendRawMessage(KingdomsPlugin.getInstance().getMessage("conversations.alliance-confirm.invalid"));
         }
 
         return END_OF_CONVERSATION;

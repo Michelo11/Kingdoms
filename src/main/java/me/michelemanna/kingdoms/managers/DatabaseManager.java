@@ -491,4 +491,49 @@ public class DatabaseManager {
             }
         });
     }
+
+    public void transferMembers(String oldKingdomName, String newKingdomName, List<UUID> members) {
+        Bukkit.getScheduler().runTaskAsynchronously(KingdomsPlugin.getInstance(), () -> {
+            try {
+                Connection connection = provider.getConnection();
+                PreparedStatement statement = connection.prepareStatement("UPDATE members SET kingdom_name = ? WHERE kingdom_name = ? AND uuid = ?");
+
+                statement.setString(1, newKingdomName);
+                statement.setString(2, oldKingdomName);
+
+                for (UUID member : members) {
+                    statement.setString(3, member.toString());
+                    statement.executeUpdate();
+                }
+
+                statement.close();
+                provider.closeConnection(connection);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public void transferChunks(String oldKingdomName, String newKingdomName, List<Territory> chunks) {
+        Bukkit.getScheduler().runTaskAsynchronously(KingdomsPlugin.getInstance(), () -> {
+            try {
+                Connection connection = provider.getConnection();
+                PreparedStatement statement = connection.prepareStatement("UPDATE territories SET kingdom_name = ? WHERE kingdom_name = ? AND chunk_x = ? AND chunk_z = ?");
+
+                statement.setString(1, newKingdomName);
+                statement.setString(2, oldKingdomName);
+
+                for (Territory chunk : chunks) {
+                    statement.setInt(3, chunk.x());
+                    statement.setInt(4, chunk.z());
+                    statement.executeUpdate();
+                }
+
+                statement.close();
+                provider.closeConnection(connection);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
 }
