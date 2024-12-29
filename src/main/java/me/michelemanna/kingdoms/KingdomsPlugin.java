@@ -2,10 +2,7 @@ package me.michelemanna.kingdoms;
 
 import me.michelemanna.kingdoms.commands.KingdomCommand;
 import me.michelemanna.kingdoms.listeners.PlayerListener;
-import me.michelemanna.kingdoms.managers.DatabaseManager;
-import me.michelemanna.kingdoms.managers.KingdomManager;
-import me.michelemanna.kingdoms.managers.TerritoryManager;
-import me.michelemanna.kingdoms.managers.WarManager;
+import me.michelemanna.kingdoms.managers.*;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -17,6 +14,7 @@ public final class KingdomsPlugin extends JavaPlugin {
     private TerritoryManager territoryManager;
     private KingdomManager kingdomManager;
     private WarManager warManager;
+    private QuestsManager questsManager;
 
     @Override
     @SuppressWarnings("ConstantConditions")
@@ -32,6 +30,9 @@ public final class KingdomsPlugin extends JavaPlugin {
             this.territoryManager = new TerritoryManager();
             this.kingdomManager = new KingdomManager();
             this.warManager = new WarManager();
+            this.questsManager = new QuestsManager();
+
+            this.questsManager.loadQuests();
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -67,5 +68,9 @@ public final class KingdomsPlugin extends JavaPlugin {
 
     public WarManager getWarManager() {
         return warManager;
+    }
+
+    public QuestsManager getQuestsManager() {
+        return questsManager;
     }
 }

@@ -9,7 +9,6 @@ import org.bukkit.Sound;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
@@ -79,8 +78,4 @@ public class PlayerListener implements Listener {
         event.getPlayer().playSound(event.getPlayer(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1, 1);
     }
 
-    @EventHandler
-    public void onDeath(PlayerDeathEvent event) {
-        KingdomsPlugin.getInstance().getWarManager().handleKill(event.getEntity().getUniqueId());
-    }
 }

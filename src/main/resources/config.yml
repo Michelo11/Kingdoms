@@ -34,6 +34,19 @@ kingdom:
       experience: 1000
       max-members: 70
       max-territories: 20
+  quests:
+    kill-player:
+      event: "org.bukkit.event.entity.EntityDeathEvent"
+      condition: "return event.getEntity() instanceof org.bukkit.entity.Player && event.getEntity().getKiller().equals(player)"
+      name: "&cKill a player"
+      description: "&7Kill a player to complete the quest"
+      experience: 50
+    chat:
+      event: "org.bukkit.event.player.AsyncPlayerChatEvent"
+      condition: "return event.getPlayer().equals(player)"
+      name: "&eSend a message"
+      description: "&7Send a message in the chat to complete the quest"
+      experience: 50
 
 # Messages configuration
 messages:
