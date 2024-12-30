@@ -536,4 +536,109 @@ public class DatabaseManager {
             }
         });
     }
+
+    public CompletableFuture<Boolean> completeQuest(String questName, String kingdomName) {
+        CompletableFuture<Boolean> future = new CompletableFuture<>();
+
+        Bukkit.getScheduler().runTaskAsynchronously(KingdomsPlugin.getInstance(), () -> {
+            try {
+                Connection connection = provider.getConnection();
+                PreparedStatement statement = connection.prepareStatement("INSERT INTO quests (quest_id, kingdom_name, count, completed) VALUES (?, ?, TRUE, 1) ON CONFLICT (quest_id, kingdom_name) DO UPDATE SET completed = TRUE");
+
+                statement.setString(1, questName);
+                statement.setString(2, kingdomName);
+
+                int rows = statement.executeUpdate();
+
+                future.complete(rows > 0);
+
+                statement.close();
+                provider.closeConnection(connection);
+            } catch (SQLException e) {
+                future.complete(false);
+            }
+        });
+
+        return future;
+    }
+
+    public void incrementQuest(String questName, String kingdomName) {
+        Bukkit.getScheduler().runTaskAsynchronously(KingdomsPlugin.getInstance(), () -> {
+            try {
+                Connection connection = provider.getConnection();
+                PreparedStatement statement = connection.prepareStatement("INSERT INTO quests (quest_id, kingdom_name, count, completed) VALUES (?, ?, FALSE, 1) ON CONFLICT (quest_id, kingdom_name) DO UPDATE SET count = count + 1");
+
+                statement.setString(1, questName);
+                statement.setString(2, kingdomName);
+
+                statement.executeUpdate();
+
+                statement.close();
+
+                provider.closeConnection(connection);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public CompletableFuture<Integer> getQuestCount(String questName, String kingdomName) {
+        CompletableFuture<Integer> future = new CompletableFuture<>();
+
+        Bukkit.getScheduler().runTaskAsynchronously(KingdomsPlugin.getInstance(), () -> {
+            try {
+                Connection connection = provider.getConnection();
+                PreparedStatement statement = connection.prepareStatement("SELECT count FROM quests WHERE quest_id = ? AND kingdom_name = ?");
+
+                statement.setString(1, questName);
+                statement.setString(2, kingdomName);
+
+                ResultSet set = statement.executeQuery();
+
+                if (set.next()) {
+                    future.complete(set.getInt("count"));
+                } else {
+                    future.complete(0);
+                }
+
+                set.close();
+                statement.close();
+                provider.closeConnection(connection);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+
+        return future;
+    }
+
+    public CompletableFuture<Boolean> isCompletedQuest(String questName, String kingdomName) {
+        CompletableFuture<Boolean> future = new CompletableFuture<>();
+
+        Bukkit.getScheduler().runTaskAsynchronously(KingdomsPlugin.getInstance(), () -> {
+            try {
+                Connection connection = provider.getConnection();
+                PreparedStatement statement = connection.prepareStatement("SELECT completed FROM quests WHERE quest_id = ? AND kingdom_name = ?");
+
+                statement.setString(1, questName);
+                statement.setString(2, kingdomName);
+
+                ResultSet set = statement.executeQuery();
+
+                if (set.next()) {
+                    future.complete(set.getBoolean("completed"));
+                } else {
+                    future.complete(false);
+                }
+
+                set.close();
+                statement.close();
+                provider.closeConnection(connection);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+
+        return future;
+    }
 }

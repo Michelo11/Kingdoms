@@ -29,6 +29,7 @@ public class KingdomCommand implements TabExecutor {
         this.subCommands.put("member", new MemberKingdomCommand());
         this.subCommands.put("level", new LevelKingdomCommand());
         this.subCommands.put("teleport", new TeleportTerritoryCommand());
+        this.subCommands.put("quests", new ListQuestCommand());
     }
 
     @Override

@@ -10,7 +10,7 @@ database:
 
 # Kingdom configuration
 kingdom:
-  war-time: 30
+  war-time: 300
   war-experience: 100
   funds-amount: 100
   levels:
@@ -37,16 +37,29 @@ kingdom:
   quests:
     kill-player:
       event: "org.bukkit.event.entity.EntityDeathEvent"
-      condition: "return event.getEntity() instanceof org.bukkit.entity.Player && event.getEntity().getKiller().equals(player)"
+      code: |
+        if (event.getEntity() instanceof org.bukkit.entity.Player && event.getEntity().getKiller() instanceof org.bukkit.entity.Player) {
+            completeQuest(event.getEntity().getKiller());
+        }
       name: "&cKill a player"
       description: "&7Kill a player to complete the quest"
       experience: 50
     chat:
       event: "org.bukkit.event.player.AsyncPlayerChatEvent"
-      condition: "return event.getPlayer().equals(player)"
+      code: |
+        completeQuest(event.getPlayer());
       name: "&eSend a message"
       description: "&7Send a message in the chat to complete the quest"
       experience: 50
+    mine:
+      event: "org.bukkit.event.block.BlockBreakEvent"
+      code: |
+        incrementQuest(event.getPlayer());
+      name: "&aMine 5 blocks"
+      description: "&7Mine 5 blocks to complete the quest"
+      experience: 50
+      required: 5
+
 
 # Messages configuration
 messages:
@@ -83,7 +96,8 @@ messages:
   guis:
     kingdom-not-found: "&8» &cThe kingdom was not found"
     no-kingdoms: "&8» &cThere are no kingdoms"
-    no-war: "&8» &cThere are no wars"
+    no-wars: "&8» &cThere are no wars"
+    no-quests: "&8» &cThere are no quests"
     next-page: "&8» &aNext page"
     previous-page: "&8» &aPrevious page"
     cant-war-yourself: "&8» &cYou can't declare war to your own kingdom"
@@ -148,3 +162,7 @@ messages:
       title-tie: "&e&lTie"
       subtitle-tie: "&7The war against the kingdom &e%name% &7ended in a tie"
       experience: "&8» &7You have earned &e%experience% &7experience"
+  data:
+    quest:
+      title-success: "&a&lQuest completed"
+      subtitle-success: "&7You have completed the quest &e%name%"

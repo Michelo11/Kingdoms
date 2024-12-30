@@ -50,6 +50,16 @@ public class SQLiteProvider implements ConnectionProvider {
                 "FOREIGN KEY (kingdom_name) REFERENCES kingdoms(name) ON DELETE CASCADE" +
                 ")");
 
+        statement.executeUpdate("CREATE TABLE IF NOT EXISTS quests(" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "kingdom_name TEXT NOT NULL, " +
+                "quest_id TEXT NOT NULL, " +
+                "completed BOOLEAN DEFAULT FALSE, " +
+                "count INTEGER DEFAULT 0, " +
+                "UNIQUE (kingdom_name, quest_id), " +
+                "FOREIGN KEY (kingdom_name) REFERENCES kingdoms(name) ON DELETE CASCADE" +
+                ")");
+
         statement.close();
     }
 

@@ -3,6 +3,7 @@ package me.michelemanna.kingdoms.guis.items;
 import me.michelemanna.kingdoms.KingdomsPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -26,8 +27,12 @@ public class MemberItem extends AbstractItem {
     @Override
     public ItemProvider getItemProvider() {
         try {
-            return new SkullBuilder(id)
-                    .setDisplayName("§6Name: " + Bukkit.getOfflinePlayer(id).getName());
+            OfflinePlayer player = Bukkit.getOfflinePlayer(id);
+            if (player.getName() == null) return new SkullBuilder(id)
+                    .setDisplayName("§6Name: " + player.getName());
+
+            return new SkullBuilder(player.getName())
+                    .setDisplayName("§6Name: " + player.getName());
         } catch (MojangApiUtils.MojangApiException | IOException e) {
             return new ItemBuilder(Material.PLAYER_HEAD)
                     .setDisplayName("§6Name: " + id);

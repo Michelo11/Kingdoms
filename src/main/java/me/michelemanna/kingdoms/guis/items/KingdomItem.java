@@ -66,7 +66,7 @@ public class KingdomItem extends AbstractItem {
                 War war = KingdomsPlugin.getInstance().getWarManager().getWar(player.getUniqueId());
 
                 if (war == null) {
-                    player.sendMessage(KingdomsPlugin.getInstance().getMessage("guis.no-war"));
+                    player.sendMessage(KingdomsPlugin.getInstance().getMessage("guis.no-wars"));
                     return;
                 }
 

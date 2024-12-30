@@ -77,5 +77,4 @@ public class PlayerListener implements Listener {
         event.getPlayer().sendTitle(title, subtitle, 10, 30, 10);
         event.getPlayer().playSound(event.getPlayer(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1, 1);
     }
-
 }

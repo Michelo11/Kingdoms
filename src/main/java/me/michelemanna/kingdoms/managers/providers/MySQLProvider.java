@@ -66,6 +66,16 @@ public class MySQLProvider implements ConnectionProvider {
                 "FOREIGN KEY (kingdom_name) REFERENCES kingdoms(name) ON DELETE CASCADE" +
                 ")");
 
+        statement.executeUpdate("CREATE TABLE IF NOT EXISTS quests(" +
+                "id INT PRIMARY KEY AUTO_INCREMENT," +
+                "kingdom_name VARCHAR(255) NOT NULL," +
+                "quest_id VARCHAR(255) NOT NULL," +
+                "completed BOOLEAN DEFAULT FALSE," +
+                "count INT DEFAULT 0," +
+                "UNIQUE (kingdom_name, quest_id)," +
+                "FOREIGN KEY (kingdom_name) REFERENCES kingdoms(name) ON DELETE CASCADE" +
+                ")");
+
         statement.close();
         connection.close();
     }

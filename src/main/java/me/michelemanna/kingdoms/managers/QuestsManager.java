@@ -14,12 +14,17 @@ public class QuestsManager {
             String event = KingdomsPlugin.getInstance().getConfig().getString("kingdom.quests." + quest + ".event");
             String description = KingdomsPlugin.getInstance().getConfig().getString("kingdom.quests." + quest + ".description");
             String name = KingdomsPlugin.getInstance().getConfig().getString("kingdom.quests." + quest + ".name");
-            String condition = KingdomsPlugin.getInstance().getConfig().getString("kingdom.quests." + quest + ".condition");
+            String code = KingdomsPlugin.getInstance().getConfig().getString("kingdom.quests." + quest + ".code");
             int experience = KingdomsPlugin.getInstance().getConfig().getInt("kingdom.quests." + quest + ".experience");
+            int required = KingdomsPlugin.getInstance().getConfig().getInt("kingdom.quests." + quest + ".required");
 
-            quests.add(new Quest(event, description, name, condition, experience));
+            quests.add(new Quest(quest, event, description, name, code, experience, required));
         });
 
         quests.forEach(Quest::register);
+    }
+
+    public List<Quest> getQuests() {
+        return quests;
     }
 }

@@ -1,5 +1,6 @@
 package me.michelemanna.kingdoms;
 
+import me.lorenzo0111.js.JShader;
 import me.michelemanna.kingdoms.commands.KingdomCommand;
 import me.michelemanna.kingdoms.listeners.PlayerListener;
 import me.michelemanna.kingdoms.managers.*;
@@ -24,6 +25,8 @@ public final class KingdomsPlugin extends JavaPlugin {
 
         getCommand("kingdom").setExecutor(new KingdomCommand());
         this.getServer().getPluginManager().registerEvents(new PlayerListener(),this);
+
+        JShader.instance(this).load();
 
         try {
             this.database = new DatabaseManager(this);

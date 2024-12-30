@@ -24,6 +24,10 @@ repositories {
         name = "xenondevs"
         url = "https://repo.xenondevs.xyz/releases"
     }
+    maven {
+        name = "lorenzo0111"
+        url = "https://dl.lorenzo0111.me/releases"
+    }
 }
 
 dependencies {
@@ -32,6 +36,7 @@ dependencies {
     implementation("com.zaxxer:HikariCP:6.2.1")
     implementation("xyz.xenondevs.invui:invui:1.43")
     implementation("com.github.cryptomorin:XSeries:12.0.0")
+    implementation("me.lorenzo0111:jshader:1.1.1")
 }
 
 shadowJar {
@@ -42,6 +47,7 @@ shadowJar {
     relocate("xyz.xenondevs.invui", "me.michelemanna.kingdoms.libs.invui")
     relocate("com.zaxxer.hikari", "me.michelemanna.kingdoms.libs.hikari")
     relocate("com.cryptomorin.xseries", "me.michelemanna.kingdoms.libs.xseries")
+    relocate("me.lorenzo0111.js", "me.michelemanna.kingdoms.libs.js")
 }
 
 def targetJavaVersion = 21
