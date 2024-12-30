@@ -30,6 +30,7 @@ public class KingdomCommand implements TabExecutor {
         this.subCommands.put("level", new LevelKingdomCommand());
         this.subCommands.put("teleport", new TeleportTerritoryCommand());
         this.subCommands.put("quests", new ListQuestCommand());
+        this.subCommands.put("help", new HelpCommand());
     }
 
     @Override
@@ -40,7 +41,7 @@ public class KingdomCommand implements TabExecutor {
         }
 
         if (args.length == 0) {
-            // TODO: Show help
+            subCommands.get("help").execute((Player) sender, args);
             return true;
         }
 

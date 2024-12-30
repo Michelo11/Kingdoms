@@ -64,6 +64,21 @@ kingdom:
 # Messages configuration
 messages:
   commands:
+    help:
+      - "&6&m-------&f&m-------&6&m-------&f&m-------&6&m-------&f&m-------"
+      - "&r   &fRunning &6Kingdoms&f by &6Michelo11"
+      - "&r"
+      - "&f/kingdom create <name> &7- Create a kingdom"
+      - "&f/kingdom delete &7- Delete your kingdom"
+      - "&f/kingdom claim &7- Claim a territory"
+      - "&f/kingdom unclaim &7- Unclaim a territory"
+      - "&f/kingdom member <player> &7- Invite a player to your kingdom"
+      - "&f/kingdom teleport &7- Teleport to a territory"
+      - "&f/kingdom level &7- Check your kingdom level"
+      - "&f/kingdom list &7- List all kingdoms"
+      - "&f/kingdom quests &7- List all quests"
+      - "&f/kingdom menu &7- Open the kingdom menu"
+      - "&6&m-------&f&m-------&6&m-------&f&m-------&6&m-------&f&m-------"
     player-only: "&8» &cOnly players can use this command"
     no-permission: "&8» &cYou don't have permission to use this command"
     player-not-found: "&8» &cThe player is not online"
