@@ -6,7 +6,7 @@ import java.util.*;
 import java.sql.Date;
 
 public class Kingdom {
-    private final int id;
+    private int id;
     private String name;
     private final UUID leaderId;
     private int level;
@@ -52,6 +52,10 @@ public class Kingdom {
 
     public int getExperience() {
         return experience;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setName(String name) {

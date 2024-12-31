@@ -136,8 +136,8 @@ public class DatabaseManager {
         return future;
     }
 
-    public CompletableFuture<Boolean> createKingdom(UUID leaderId, String kingdomName) {
-        CompletableFuture<Boolean> future = new CompletableFuture<>();
+    public CompletableFuture<Kingdom> createKingdom(UUID leaderId, String kingdomName) {
+        CompletableFuture<Kingdom> future = new CompletableFuture<>();
 
         Bukkit.getScheduler().runTaskAsynchronously(KingdomsPlugin.getInstance(), () -> {
             try {
@@ -149,13 +149,20 @@ public class DatabaseManager {
 
                 int rows = statement.executeUpdate();
 
-                future.complete(rows > 0);
+                if (rows == 0) {
+                    future.complete(null);
+                    return;
+                }
 
                 ResultSet set = statement.getGeneratedKeys();
                 set.next();
                 int id = set.getInt(1);
 
-                KingdomsPlugin.getInstance().getKingdomManager().addKingdom(new Kingdom(id, kingdomName, leaderId, 1, 0, 0, null));
+                Kingdom kingdom = new Kingdom(id, kingdomName, leaderId, 1, 0, 0, null);
+
+                KingdomsPlugin.getInstance().getKingdomManager().addKingdom(kingdom);
+
+                future.complete(kingdom);
 
                 statement.close();
                 provider.closeConnection(connection);

@@ -1,7 +1,11 @@
 package me.michelemanna.kingdoms.managers;
 
+import me.michelemanna.kingdoms.KingdomsPlugin;
+import me.michelemanna.kingdoms.api.events.WarEndEvent;
+import me.michelemanna.kingdoms.api.events.WarStartedEvent;
 import me.michelemanna.kingdoms.data.Kingdom;
 import me.michelemanna.kingdoms.data.War;
+import org.bukkit.Bukkit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,10 +25,18 @@ public class WarManager {
 
         wars.add(war);
         war.start();
+
+        Bukkit.getScheduler().runTask(KingdomsPlugin.getInstance(), () -> {
+            Bukkit.getPluginManager().callEvent(new WarStartedEvent(new War(attacker, defender)));
+        });
     }
 
     public void endWar(War war) {
         wars.remove(war);
+
+        Bukkit.getScheduler().runTask(KingdomsPlugin.getInstance(), () -> {
+            Bukkit.getPluginManager().callEvent(new WarEndEvent(war));
+        });
     }
 
     public void handleKill(UUID player) {

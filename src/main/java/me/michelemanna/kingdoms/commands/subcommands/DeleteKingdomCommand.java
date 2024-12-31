@@ -1,7 +1,9 @@
 package me.michelemanna.kingdoms.commands.subcommands;
 
 import me.michelemanna.kingdoms.KingdomsPlugin;
+import me.michelemanna.kingdoms.api.events.KingdomDeleteEvent;
 import me.michelemanna.kingdoms.commands.SubCommand;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 public class DeleteKingdomCommand implements SubCommand {
@@ -24,6 +26,10 @@ public class DeleteKingdomCommand implements SubCommand {
                     KingdomsPlugin.getInstance().getDatabase().removeMembers(kingdom.getName());
 
                     player.sendMessage(KingdomsPlugin.getInstance().getMessage("commands.delete-kingdom.success").replace("%name%", kingdom.getName()));
+
+                    Bukkit.getScheduler().runTask(KingdomsPlugin.getInstance(), () -> {
+                        Bukkit.getPluginManager().callEvent(new KingdomDeleteEvent(player, kingdom));
+                    });
                 } else {
                     player.sendMessage(KingdomsPlugin.getInstance().getMessage("commands.delete-kingdom.error"));
                 }

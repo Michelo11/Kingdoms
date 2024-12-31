@@ -1,7 +1,9 @@
 package me.michelemanna.kingdoms.commands.subcommands;
 
 import me.michelemanna.kingdoms.KingdomsPlugin;
+import me.michelemanna.kingdoms.api.events.KingdomCreateEvent;
 import me.michelemanna.kingdoms.commands.SubCommand;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 public class CreateKingdomCommand implements SubCommand {
@@ -35,11 +37,15 @@ public class CreateKingdomCommand implements SubCommand {
                 }
 
                 KingdomsPlugin.getInstance().getDatabase().createKingdom(player.getUniqueId(), kingdomName).thenAccept(created -> {
-                    if (created) {
+                    if (created != null) {
                         KingdomsPlugin.getInstance().getDatabase().createTerritory(kingdomName, x, z);
                         KingdomsPlugin.getInstance().getDatabase().addMember(kingdomName, player.getUniqueId());
 
                         player.sendMessage(KingdomsPlugin.getInstance().getMessage("commands.create-kingdom.success").replace("%name%", kingdomName));
+
+                        Bukkit.getScheduler().runTask(KingdomsPlugin.getInstance(), () -> {
+                            Bukkit.getPluginManager().callEvent(new KingdomCreateEvent(player, created));
+                        });
                     } else {
                         player.sendMessage(KingdomsPlugin.getInstance().getMessage("commands.create-kingdom.error"));
                     }

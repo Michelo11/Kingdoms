@@ -1,7 +1,10 @@
 package me.michelemanna.kingdoms.commands.subcommands;
 
 import me.michelemanna.kingdoms.KingdomsPlugin;
+import me.michelemanna.kingdoms.api.events.ClaimTerritoryEvent;
 import me.michelemanna.kingdoms.commands.SubCommand;
+import me.michelemanna.kingdoms.data.Territory;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 public class ClaimTerritoryCommand implements SubCommand {
@@ -35,6 +38,10 @@ public class ClaimTerritoryCommand implements SubCommand {
                 KingdomsPlugin.getInstance().getDatabase().createTerritory(kingdom.getName(), x, z);
 
                 player.sendMessage(KingdomsPlugin.getInstance().getMessage("commands.claim-territory.success"));
+
+                Bukkit.getScheduler().runTask(KingdomsPlugin.getInstance(), () -> {
+                    Bukkit.getPluginManager().callEvent(new ClaimTerritoryEvent(player, kingdom, new Territory(x, z)));
+                });
             });
         });
     }

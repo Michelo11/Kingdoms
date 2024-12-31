@@ -1,6 +1,7 @@
 package me.michelemanna.kingdoms.data;
 
 import me.michelemanna.kingdoms.KingdomsPlugin;
+import me.michelemanna.kingdoms.api.events.QuestCompleteEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -68,6 +69,10 @@ public class Quest implements Listener {
                player.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
 
                KingdomsPlugin.getInstance().getKingdomManager().addExperience(kingdom, experience);
+
+               Bukkit.getScheduler().runTask(KingdomsPlugin.getInstance(), () -> {
+                   Bukkit.getPluginManager().callEvent(new QuestCompleteEvent(player, this));
+               });
            }
         });
     }
