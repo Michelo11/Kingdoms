@@ -14,10 +14,11 @@ import java.util.UUID;
 public class WarManager {
     private final List<War> wars = new ArrayList<>();
 
-    public List<War> getWars(Kingdom kingdom) {
+    public War getWar(Kingdom kingdom) {
         return wars.stream()
                 .filter(war -> war.getAttacker().equals(kingdom) || war.getDefender().equals(kingdom))
-                .toList();
+                .findFirst()
+                .orElse(null);
     }
 
     public void startWar(Kingdom attacker, Kingdom defender) {
@@ -54,5 +55,9 @@ public class WarManager {
                         war.getAlliances().stream().anyMatch(kingdom -> kingdom.getMembers().contains(player) || kingdom.getLeaderId().equals(player)))
                 .findFirst()
                 .orElse(null);
+    }
+
+    public List<War> getWars() {
+        return wars;
     }
 }
