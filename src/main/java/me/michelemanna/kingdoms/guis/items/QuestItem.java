@@ -1,7 +1,7 @@
 package me.michelemanna.kingdoms.guis.items;
 
 import me.michelemanna.kingdoms.KingdomsPlugin;
-import me.michelemanna.kingdoms.data.Quest;
+import me.michelemanna.kingdoms.api.quests.Quest;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import xyz.xenondevs.invui.item.builder.ItemBuilder;

@@ -2,7 +2,7 @@ package me.michelemanna.kingdoms.api;
 
 import me.michelemanna.kingdoms.KingdomsPlugin;
 import me.michelemanna.kingdoms.data.Kingdom;
-import me.michelemanna.kingdoms.data.Quest;
+import me.michelemanna.kingdoms.api.quests.Quest;
 import me.michelemanna.kingdoms.data.Territory;
 import me.michelemanna.kingdoms.data.War;
 import org.bukkit.Chunk;
@@ -37,6 +37,10 @@ public class KingdomsAPI {
 
     public static List<Quest> getQuests() {
         return KingdomsPlugin.getInstance().getQuestsManager().getQuests();
+    }
+
+    public static void registerQuest(Quest quest) {
+        KingdomsPlugin.getInstance().getQuestsManager().registerQuest(quest);
     }
 
     public static List<War> getWars() {

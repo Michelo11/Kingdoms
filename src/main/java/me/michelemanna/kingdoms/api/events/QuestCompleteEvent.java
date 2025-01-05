@@ -1,6 +1,6 @@
 package me.michelemanna.kingdoms.api.events;
 
-import me.michelemanna.kingdoms.data.Quest;
+import me.michelemanna.kingdoms.api.quests.Quest;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerEvent;

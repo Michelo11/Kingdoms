@@ -1,7 +1,7 @@
 package me.michelemanna.kingdoms.guis;
 
 import me.michelemanna.kingdoms.KingdomsPlugin;
-import me.michelemanna.kingdoms.data.Quest;
+import me.michelemanna.kingdoms.api.quests.Quest;
 import me.michelemanna.kingdoms.guis.items.NavigationItem;
 import me.michelemanna.kingdoms.guis.items.QuestItem;
 import org.bukkit.Bukkit;

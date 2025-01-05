@@ -1,64 +1,34 @@
-package me.michelemanna.kingdoms.data;
+package me.michelemanna.kingdoms.api.quests;
 
 import me.michelemanna.kingdoms.KingdomsPlugin;
 import me.michelemanna.kingdoms.api.events.QuestCompleteEvent;
+import me.michelemanna.kingdoms.data.Kingdom;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 
 import javax.script.ScriptEngineManager;
 import java.util.function.Consumer;
 
-public class Quest implements Listener {
+public abstract class Quest {
     private final String id;
-    private final String event;
     private final String description;
     private final String name;
-    private final String code;
     private final int experience;
     private final int required;
 
-    public Quest(String id,  String event, String description, String name, String code, int experience, int required) {
+    public Quest(String id, String description, String name, int experience, int required) {
         this.id = id;
-        this.event = event;
         this.description = description;
         this.name = name;
-        this.code = code;
         this.experience = experience;
         this.required = required;
     }
 
-    @SuppressWarnings("unchecked")
-    public void register() {
-        try {
-            Class<Event> clazz = (Class<Event>) Class.forName(this.event);
-            Bukkit.getPluginManager().registerEvent(clazz, this, EventPriority.MONITOR, (listener, event) -> {
-                if (clazz.isInstance(event)) {
-                    onEvent(event);
-                }
-            }, KingdomsPlugin.getInstance());
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void onEvent(Event event) {
-        Bukkit.getScheduler().runTaskAsynchronously(KingdomsPlugin.getInstance(), () -> {
-            try {
-                ScriptEngineManager provider = Bukkit.getServicesManager().getRegistration(ScriptEngineManager.class).getProvider();
-                provider.put("event", event);
-                provider.put("completeQuest", (Consumer<Player>) this::completeQuest);
-                provider.put("incrementQuest", (Consumer<Player>) this::incrementQuest);
-                provider.getEngineByName("JavaScript").eval(this.code);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-    }
+    public abstract void register();
 
 
     public void completeQuest(Player player) {
